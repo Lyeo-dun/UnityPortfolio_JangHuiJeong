@@ -10,15 +10,22 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField] private GameObject MainCamera;
     private float CameraAngle;
 
+    [SerializeField] private GameObject FlashLight;
+    private bool isFlash;
+
     private void Awake()
     {
         MainCamera = Camera.main.gameObject;
+        FlashLight = GameObject.Find("FlashLight");
     }
 
     void Start()
     {
         MoveSpeed = 5.0f;
         RotateSpeed = 3.5f;
+
+        FlashLight.SetActive(false);
+        isFlash = FlashLight.activeSelf;
     }
 
     void Update()
@@ -46,6 +53,12 @@ public class PlayerMoveController : MonoBehaviour
                         hit.transform.gameObject.GetComponent<TestDissolveItem>().ChangeDissolveState();
                     }
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            isFlash = !isFlash;
+            FlashLight.SetActive(isFlash);
         }
     }
 
