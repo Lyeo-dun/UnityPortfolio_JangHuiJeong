@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - InterectionObject
+  - Wall
+  - Ground
   layers:
   - Default
   - TransparentFX
