@@ -7,6 +7,9 @@ TagManager:
   - InterectionObject
   - Wall
   - Ground
+  - Portal
+  - Door
+  - KeyDoor
   layers:
   - Default
   - TransparentFX
