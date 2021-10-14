@@ -61,7 +61,7 @@ public class PlayerMoveController : MonoBehaviour
                     {
                         hit.transform.gameObject.GetComponent<TestDissolveItem>().ChangeDissolveState();
                     }
-                    if(hit.transform.tag == "Door" || hit.transform.tag == "MainDoor")
+                    if(hit.transform.tag == "Door" || hit.transform.tag == "KeyDoor")
                     {
                         hit.transform.gameObject.GetComponent<Door>().DoorCtl();
                     }
@@ -78,7 +78,7 @@ public class PlayerMoveController : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, hit.transform.position) <= 3.0f)
                 {
-                    if (hit.transform.tag == "MainDoor")
+                    if (hit.transform.tag == "KeyDoor")
                     {
                         hit.transform.gameObject.GetComponent<Door>().OpenDoor();
                     }
