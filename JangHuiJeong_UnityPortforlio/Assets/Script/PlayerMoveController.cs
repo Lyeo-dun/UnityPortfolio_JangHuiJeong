@@ -9,6 +9,7 @@ public class PlayerMoveController : MonoBehaviour
 
     [SerializeField] private GameObject MainCamera;
     private float CameraAngle;
+    private Vector3 CameraPos;
 
     [SerializeField] private GameObject FlashLight;
     private bool isFlash;
@@ -44,10 +45,15 @@ public class PlayerMoveController : MonoBehaviour
         //JumpSpeed = 0.0f;
         //OldPositionY = transform.position.y;
         //MaximumY = 5.0f;
+
+        CameraPos = new Vector3(0.0f, 0.5f, 0.0f);
     }
 
     void Update()
     {
+        {
+
+        }
         if(Input.GetKeyDown(KeyCode.E))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -151,7 +157,7 @@ public class PlayerMoveController : MonoBehaviour
             }
             else
             {
-                transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
+                transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
             }
         }
 
@@ -163,6 +169,8 @@ public class PlayerMoveController : MonoBehaviour
 
         if (Input.GetMouseButton(1))
             PlayerRotate();
+
+        MainCamera.transform.position = transform.position + CameraPos;
 
     }
     //private void OnCollisionEnter(Collision collision)

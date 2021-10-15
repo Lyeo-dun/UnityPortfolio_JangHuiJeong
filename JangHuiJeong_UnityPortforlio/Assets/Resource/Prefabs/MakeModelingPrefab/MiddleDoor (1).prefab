@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 526978745870126396}
   - component: {fileID: 2457909557072975237}
   - component: {fileID: -4316015254445081457}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiddleDoor (1)
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Colliders: []
-  Key: {fileID: 0}
+  isKey: 0
 --- !u!1 &5643842386116365451
 GameObject:
   m_ObjectHideFlags: 0

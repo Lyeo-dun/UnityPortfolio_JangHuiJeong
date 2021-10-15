@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7514838558955772916}
   - component: {fileID: 9148318007217452036}
   - component: {fileID: 5561343558079169170}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiniDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Colliders: []
-  Key: {fileID: 0}
+  isKey: 0
 --- !u!95 &7514838558955772916
 Animator:
   serializedVersion: 3

@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1581760391501773209}
   - component: {fileID: 4119694100541920293}
   - component: {fileID: 5652433547217377380}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders: []
   isKey: 0
-  Key: {fileID: 0}
 --- !u!1 &4914789682964336174
 GameObject:
   m_ObjectHideFlags: 0

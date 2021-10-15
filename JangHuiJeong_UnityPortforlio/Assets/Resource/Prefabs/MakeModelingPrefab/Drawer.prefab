@@ -605,7 +605,7 @@ GameObject:
   - component: {fileID: 1534037311851249952}
   - component: {fileID: 6591964441319724509}
   - component: {fileID: 8243888360670222278}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Drawer
   m_TagString: Door
   m_Icon: {fileID: 0}
