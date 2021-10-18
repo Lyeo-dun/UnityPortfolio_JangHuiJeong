@@ -38,6 +38,10 @@ public class Door : MonoBehaviour
             {
                 DoorAniCtrl();
             }
+            else
+            {
+                Debug.Log("열쇠가 필요할 것 같다");
+            }
         }
         else
         {

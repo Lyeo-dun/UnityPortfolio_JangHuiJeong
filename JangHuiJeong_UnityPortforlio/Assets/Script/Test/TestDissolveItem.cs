@@ -6,9 +6,10 @@ public class TestDissolveItem : MonoBehaviour
 {
     private bool isDissolve;
     private float Value;
+    [SerializeField] private Renderer[] Dissolves;
     private void Awake()
     {
-
+        Dissolves = gameObject.GetComponentsInChildren<Renderer>(); // ** 자식 오브젝트들에 있는 모든 Renderer를 가져온다
     }
     void Start()
     {
@@ -22,7 +23,13 @@ public class TestDissolveItem : MonoBehaviour
             Value += 0.002f;
 
             // ** 쉐이더 값 조정
-            GetComponent<Renderer>().material.SetFloat("_Cutoff", Value);
+            foreach (var Dissolve in Dissolves)
+            {
+                foreach (var material in Dissolve.materials)
+                {
+                    material.SetFloat("_Cutoff", Value);
+                }
+            }
 
             if (Value >= 1.0f)
             {
@@ -33,6 +40,6 @@ public class TestDissolveItem : MonoBehaviour
     }
     public void ChangeDissolveState()
     {
-        isDissolve = true;
+        isDissolve = !isDissolve;
     }
 }

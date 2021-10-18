@@ -6,6 +6,7 @@ public class PlayerMoveController : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float RotateSpeed;
+    private float InterectionDistance;
 
     [SerializeField] private GameObject MainCamera;
     private float CameraAngle;
@@ -22,11 +23,15 @@ public class PlayerMoveController : MonoBehaviour
     //private float MaximumY;
     private Rigidbody Rigid;
 
+    [SerializeField] private GameObject PressEKeyUI;
+
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         MainCamera = Camera.main.gameObject;
         FlashLight = GameObject.Find("FlashLight");
+        PressEKeyUI = GameObject.Find("PressEKeyUI");
         Rigid = GetComponent<Rigidbody>();
     }
 
@@ -34,11 +39,13 @@ public class PlayerMoveController : MonoBehaviour
     {        
         MoveSpeed = 5.0f;
         RotateSpeed = 3.5f;
+        InterectionDistance = 1.5f;
 
         FlashLight.SetActive(false);
         isFlash = FlashLight.activeSelf;
 
         CameraAngle = 0.0f;
+
 
         //Jumping = false;
         //Drop = true;
@@ -47,50 +54,51 @@ public class PlayerMoveController : MonoBehaviour
         //MaximumY = 5.0f;
 
         CameraPos = new Vector3(0.0f, 0.5f, 0.0f);
+
+        PressEKeyUI.SetActive(false);
     }
 
     void Update()
     {
-        {
-
-        }
-        if(Input.GetKeyDown(KeyCode.E))
+        // ** 상호작용 물체와의 상호작용
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            int _LayerMask = 1 << LayerMask.NameToLayer("Interaction");
 
-            if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if(PressEKeyUI != null)
             {
-                if(Vector3.Distance(transform.position ,hit.transform.position) <= 3.0f)
+                PressEKeyUI.SetActive(false); // ** 조건문 전에 활성화를 꺼두면 조건이 만족하지 않는 이상은 계속 false 상태로 설정할 수 있다.
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, _LayerMask))
                 {
-                    if(hit.transform.tag == "InterectionObject")
+                    if(Vector3.Distance(hit.point, transform.position) <= InterectionDistance)
                     {
-                        hit.transform.gameObject.GetComponent<TestDissolveItem>().ChangeDissolveState();
-                    }
-                    if(hit.transform.tag == "Door" || hit.transform.tag == "KeyDoor")
-                    {
-                        hit.transform.gameObject.GetComponent<Door>().DoorCtl();
-                    }
-                }                
-            }
-        }
-
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-            {
-                if (Vector3.Distance(transform.position, hit.transform.position) <= 3.0f)
-                {
-                    if (hit.transform.tag == "KeyDoor")
-                    {
-                        hit.transform.gameObject.GetComponent<Door>().OpenDoor();
+                        PressEKeyUI.SetActive(true);
                     }
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                {
+                    if(Vector3.Distance(transform.position ,hit.point) <= InterectionDistance)
+                    {
+                        if(hit.transform.tag == "InterectionObject") // ** DissolveItem으로 태그 변경 예정
+                        {
+                            hit.transform.gameObject.GetComponent<TestDissolveItem>().ChangeDissolveState();
+                        }
+                        if(hit.transform.tag == "Door" || hit.transform.tag == "KeyDoor") 
+                            // ** 하는 일이 비슷하기 때문에 같은 코드를 사용
+                            // ** 태그 역시 같이 사용하려면 어떻게 해야할 지 고민
+                        {
+                            hit.transform.gameObject.GetComponent<Door>().DoorCtl();
+                        }
+                    }                
+                }
+            }
         }
+
         if(Input.GetKeyDown(KeyCode.F))
         {
             isFlash = !isFlash;

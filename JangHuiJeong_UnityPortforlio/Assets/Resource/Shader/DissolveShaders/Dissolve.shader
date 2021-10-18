@@ -42,6 +42,7 @@ Shader "Ultimate 10+ Shaders/Dissolve"
         [HDR] _EdgeColor ("Edge Color", Color) = (1,1,1,1)
         
         [Enum(UnityEngine.Rendering.CullMode)] _Cull ("Cull", Float) = 2
+        _Emission("Emission", float) = 0
     }
     SubShader
     {
@@ -67,6 +68,7 @@ Shader "Ultimate 10+ Shaders/Dissolve"
 
         fixed4 _Color;
         fixed4 _EdgeColor;
+        float _Emission;
 
         struct Input
         {
@@ -86,13 +88,16 @@ Shader "Ultimate 10+ Shaders/Dissolve"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             pixel = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-
+            
             o.Albedo = pixel.rgb;
 
             noisePixel = tex2D (_NoiseTex, IN.uv_NoiseTex);
 
             clip(noisePixel.r >= _Cutoff ? 1 : -1);
-            o.Emission = noisePixel.r >= (_Cutoff * (_EdgeWidth + 1.0)) ? 0 : _EdgeColor;
+            
+            //o.Emission = pixel.rgb * tex2D(_MainTex, IN.uv_MainTex).a * _Emission;
+            o.Emission = noisePixel.r >= (_Cutoff * (_EdgeWidth + 1.0)) ? pixel.rgb * tex2D(_MainTex, IN.uv_MainTex).a * _Emission : _EdgeColor;
+            //o.Emission = noisePixel.r >= (_Cutoff * (_EdgeWidth + 1.0)) ? 0 : _EdgeColor;
         }
         ENDCG
     }
