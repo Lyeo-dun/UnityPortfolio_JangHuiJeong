@@ -142,7 +142,7 @@ public class PlayerMoveController : MonoBehaviour
                     transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
                 }
 
-                if (hit.transform.tag == "Portal" || hit.transform.gameObject.GetComponent<Collider>().isTrigger == true)
+                if (hit.transform.gameObject.GetComponent<Collider>().isTrigger == true)
                 {
                     transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
                 }
@@ -158,7 +158,7 @@ public class PlayerMoveController : MonoBehaviour
                 {
                     transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
                 }
-                if (hit.transform.tag == "Portal")
+                if (hit.transform.gameObject.GetComponent<Collider>().isTrigger == true)
                 {
                     transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
                 }

@@ -22,8 +22,7 @@ public class Portal : MonoBehaviour
         {
             other.gameObject.transform.position = OtherPortal.transform.position + Vector3.forward * 2.0f + Vector3.up;
 
-            OtherPortal.SetActive(false);
-            gameObject.SetActive(false);
+            GameManager.GetInstance().AddPortalCount();
         }
     }
 }

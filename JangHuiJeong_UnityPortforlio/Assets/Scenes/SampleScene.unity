@@ -264,6 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae3d52455b94f14bb7d22354a867a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dissolves: []
 --- !u!1 &118625690
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +883,7 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   FlashLight: {fileID: 0}
   Jumping: 0
+  PressEKeyUI: {fileID: 0}
 --- !u!54 &522384810
 Rigidbody:
   m_ObjectHideFlags: 0
