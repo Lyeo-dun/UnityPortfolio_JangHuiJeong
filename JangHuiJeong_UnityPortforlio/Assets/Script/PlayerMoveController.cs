@@ -6,6 +6,7 @@ public class PlayerMoveController : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float RotateSpeed;
+    //float RotationPlayerValue;
     private float InterectionDistance;
 
     [SerializeField] private GameObject MainCamera;
@@ -39,6 +40,7 @@ public class PlayerMoveController : MonoBehaviour
     {        
         MoveSpeed = 5.0f;
         RotateSpeed = 3.5f;
+        //RotationPlayerValue = 0;
         InterectionDistance = 1.5f;
 
         FlashLight.SetActive(false);
@@ -199,12 +201,15 @@ public class PlayerMoveController : MonoBehaviour
     void PlayerRotate()
     {
         float MouseX = Input.GetAxis("Mouse X");
-        transform.Rotate(Vector3.up * MouseX * RotateSpeed);
+        transform.Rotate(Vector3.up * MouseX * RotateSpeed);        
+        //RotationPlayerValue += MouseX * RotateSpeed;
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * RotationPlayerValue), 0.2f);
 
         float MouseY = Input.GetAxis("Mouse Y");
         CameraAngle -= MouseY * RotateSpeed;
         CameraAngle = Mathf.Clamp(CameraAngle, -90, 90);
 
+        
         // ** 부모가 있는 경우 local로 변경
         MainCamera.transform.localEulerAngles = Vector3.right * CameraAngle;    
     }
