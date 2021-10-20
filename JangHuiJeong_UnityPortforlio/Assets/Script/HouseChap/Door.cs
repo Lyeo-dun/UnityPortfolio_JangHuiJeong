@@ -12,22 +12,27 @@ public class Door : MonoBehaviour
     //[SerializeField] private GameObject Key;
 
     private bool KeyDoor;
-
+    [SerializeField] private GameObject NeedKeyMessageUI;
     private void Awake()
     {
         DoorAni = GetComponent<Animator>();
         Colliders = GetComponents<Collider>();
 
+        if (gameObject.tag == "KeyDoor")
+            KeyDoor = true;
+        else
+            KeyDoor = false;
+
+        if (KeyDoor)
+            NeedKeyMessageUI = GameObject.Find("NeedKeyMessage");
     }
     private void Start()
     {
         isOpen = false;
         isKey = false;
 
-        if (gameObject.tag == "KeyDoor")
-            KeyDoor = true;
-        else
-            KeyDoor = false;
+        if (KeyDoor)
+            NeedKeyMessageUI.SetActive(false);
     }
 
     public void DoorCtl()
@@ -39,8 +44,8 @@ public class Door : MonoBehaviour
                 DoorAniCtrl();
             }
             else
-            {
-                Debug.Log("열쇠가 필요할 것 같다");
+            {                
+                StartCoroutine("ViewingCountMessage");
             }
         }
         else
@@ -48,7 +53,13 @@ public class Door : MonoBehaviour
             DoorAniCtrl();
         }
     }
+    IEnumerator ViewingCountMessage()
+    {
+        NeedKeyMessageUI.SetActive(true);
 
+        yield return new WaitForSeconds(1.0f);
+        NeedKeyMessageUI.SetActive(false);
+    }
     private void DoorAniCtrl()
     {
         isOpen = !isOpen;

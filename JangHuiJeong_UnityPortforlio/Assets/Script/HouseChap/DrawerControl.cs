@@ -7,7 +7,7 @@ public class DrawerControl : MonoBehaviour
     [SerializeField] private GameObject[] InDrawerObjects; // ** 서랍 안의 오브젝트들
     [SerializeField] private GameObject Drawer; // ** 서랍 
     // ** 오브젝트가 서랍의 위치로 가게되면 모델링이 겹치는 사태가 발생하기 때문에 Offset 값으로 위치를 조정한다
-    private Vector3[] Offset; 
+    private Vector3[] Offset;
 
     void Awake()
     {

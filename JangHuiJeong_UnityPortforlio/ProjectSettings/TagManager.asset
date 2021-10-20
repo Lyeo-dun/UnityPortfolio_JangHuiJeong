@@ -10,6 +10,7 @@ TagManager:
   - Portal
   - Door
   - KeyDoor
+  - Clock
   layers:
   - Default
   - TransparentFX

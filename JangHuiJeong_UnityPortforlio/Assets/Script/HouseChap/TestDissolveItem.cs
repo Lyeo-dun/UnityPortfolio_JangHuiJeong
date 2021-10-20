@@ -34,6 +34,7 @@ public class TestDissolveItem : MonoBehaviour
             if (Value >= 1.0f)
             {
                 isDissolve = false;
+                Value = 0;
                 gameObject.SetActive(false);
             }
         }

@@ -15,11 +15,7 @@ public class ClockManager : MonoBehaviour
         {
             Clock.SetActive(false);
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Clocks[0].SetActive(true);
     }
 }

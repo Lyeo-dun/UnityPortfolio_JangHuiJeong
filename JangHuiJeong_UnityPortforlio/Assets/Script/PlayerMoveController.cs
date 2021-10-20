@@ -86,9 +86,9 @@ public class PlayerMoveController : MonoBehaviour
                 {
                     if(Vector3.Distance(transform.position ,hit.point) <= InterectionDistance)
                     {
-                        if(hit.transform.tag == "InterectionObject") // ** DissolveItem으로 태그 변경 예정
+                        if(hit.transform.tag == "Clock")
                         {
-                            hit.transform.gameObject.GetComponent<TestDissolveItem>().ChangeDissolveState();
+                            hit.transform.gameObject.GetComponent<ClockControl>().DissolveAlarm();
                         }
                         if(hit.transform.tag == "Door" || hit.transform.tag == "KeyDoor") 
                             // ** 하는 일이 비슷하기 때문에 같은 코드를 사용
