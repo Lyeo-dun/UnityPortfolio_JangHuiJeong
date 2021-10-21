@@ -20,7 +20,7 @@ public class TestDissolveItem : MonoBehaviour
     {
         if(isDissolve)
         {
-            Value += 0.002f;
+            Value += 0.003f;
 
             // ** 쉐이더 값 조정
             foreach (var Dissolve in Dissolves)
@@ -35,12 +35,15 @@ public class TestDissolveItem : MonoBehaviour
             {
                 isDissolve = false;
                 Value = 0;
+                GetComponent<Collider>().enabled = true;
+
                 gameObject.SetActive(false);
             }
         }
     }
     public void ChangeDissolveState()
     {
-        isDissolve = !isDissolve;
+        isDissolve = true;
+        GetComponent<Collider>().enabled = false;
     }
 }

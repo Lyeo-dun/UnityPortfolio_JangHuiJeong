@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int PortalCount;
     public bool ViewText;
 
+    [Header("Chapter 2")]
+    private bool FirstAlarmOff;
+
     public static GameManager GetInstance()
     {
         return _Instance;
@@ -40,6 +43,10 @@ public class GameManager : MonoBehaviour
             PortalCount = 0;
             SceneNumber = 0;
             ViewText = false;
+        }
+
+        { // ** chap 2
+            FirstAlarmOff = false;
         }
     }
 

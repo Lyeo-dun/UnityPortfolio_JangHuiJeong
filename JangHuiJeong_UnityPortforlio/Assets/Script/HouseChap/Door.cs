@@ -4,63 +4,27 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    private Animator DoorAni;
+    [SerializeField] private Animator DoorAni;
     private bool isOpen;
     [SerializeField] private Collider[] Colliders;
     
-    [SerializeField] private bool isKey;
-    //[SerializeField] private GameObject Key;
-
-    private bool KeyDoor;
-    [SerializeField] private GameObject NeedKeyMessageUI;
-    private void Awake()
+    protected virtual void Awake()
     {
         DoorAni = GetComponent<Animator>();
         Colliders = GetComponents<Collider>();
-
-        if (gameObject.tag == "KeyDoor")
-            KeyDoor = true;
-        else
-            KeyDoor = false;
-
-        if (KeyDoor)
-            NeedKeyMessageUI = GameObject.Find("NeedKeyMessage");
     }
-    private void Start()
+
+    protected virtual void Start()
     {
         isOpen = false;
-        isKey = false;
-
-        if (KeyDoor)
-            NeedKeyMessageUI.SetActive(false);
     }
 
-    public void DoorCtl()
+    public virtual void DoorCtl()
     {
-        if (KeyDoor)
-        {
-            if (isKey)
-            {
-                DoorAniCtrl();
-            }
-            else
-            {                
-                StartCoroutine("ViewingCountMessage");
-            }
-        }
-        else
-        {
-            DoorAniCtrl();
-        }
+        DoorAniCtrl();
     }
-    IEnumerator ViewingCountMessage()
-    {
-        NeedKeyMessageUI.SetActive(true);
 
-        yield return new WaitForSeconds(1.0f);
-        NeedKeyMessageUI.SetActive(false);
-    }
-    private void DoorAniCtrl()
+    protected void DoorAniCtrl()
     {
         isOpen = !isOpen;
         DoorAni.SetBool("isOpen", isOpen);
@@ -68,10 +32,5 @@ public class Door : MonoBehaviour
         {
             Colliders[i].enabled = !Colliders[i].enabled;
         }
-    }
-
-    public void OpenDoor()
-    {
-        isKey = true;
     }
 }

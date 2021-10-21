@@ -6,7 +6,7 @@ public class PlayerMoveController : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float RotateSpeed;
-    //float RotationPlayerValue;
+    //float RotationPlayerValue; // ** 부드러운 회전 보류
     private float InterectionDistance;
 
     [SerializeField] private GameObject MainCamera;
@@ -18,10 +18,6 @@ public class PlayerMoveController : MonoBehaviour
 
     // ** 점프 구현
     [SerializeField] private bool Jumping;
-    //private bool Drop;
-    //private float JumpSpeed;
-    //private float OldPositionY;
-    //private float MaximumY;
     private Rigidbody Rigid;
 
     [SerializeField] private GameObject PressEKeyUI;
@@ -48,13 +44,6 @@ public class PlayerMoveController : MonoBehaviour
 
         CameraAngle = 0.0f;
 
-
-        //Jumping = false;
-        //Drop = true;
-        //JumpSpeed = 0.0f;
-        //OldPositionY = transform.position.y;
-        //MaximumY = 5.0f;
-
         CameraPos = new Vector3(0.0f, 0.5f, 0.0f);
 
         PressEKeyUI.SetActive(false);
@@ -62,7 +51,7 @@ public class PlayerMoveController : MonoBehaviour
 
     void Update()
     {
-        // ** 상호작용 물체와의 상호작용
+        // ** 물체와의 상호작용
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -90,15 +79,14 @@ public class PlayerMoveController : MonoBehaviour
                         {
                             hit.transform.gameObject.GetComponent<ClockControl>().DissolveAlarm();
                         }
-                        if(hit.transform.tag == "Door" || hit.transform.tag == "KeyDoor") 
-                            // ** 하는 일이 비슷하기 때문에 같은 코드를 사용
-                            // ** 태그 역시 같이 사용하려면 어떻게 해야할 지 고민
+                        if(hit.transform.tag == "Door") 
                         {
                             hit.transform.gameObject.GetComponent<Door>().DoorCtl();
                         }
                     }                
                 }
             }
+
         }
 
         if(Input.GetKeyDown(KeyCode.F))
@@ -110,20 +98,7 @@ public class PlayerMoveController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             Jumping = true;            
-        }
-
-        //if(Jumping)
-        //{
-        //    if(Drop)
-        //        transform.Translate(Vector3.up * -JumpSpeed * Time.deltaTime);
-        //    else
-        //    {
-        //        transform.Translate(Vector3.up * JumpSpeed * Time.deltaTime);
-        //
-        //        if (MaximumY + OldPositionY <= transform.position.y)
-        //            Drop = true;
-        //    }
-        //}        
+        }       
     }
     private void FixedUpdate()
     {
@@ -173,7 +148,7 @@ public class PlayerMoveController : MonoBehaviour
 
         if (Jumping)
         {
-            Jump();
+            Rigid.AddForce(Vector3.up * 6.0f, ForceMode.Impulse);
             Jumping = false;
         }
 
@@ -183,25 +158,14 @@ public class PlayerMoveController : MonoBehaviour
         MainCamera.transform.position = transform.position + CameraPos;
 
     }
-    //private void OnCollisionEnter(Collision collision)
-    //{
-        //    //if(Jumping)
-        //    //    if(Drop)
-        //    //        if(collision.gameObject)
-        //    //            Jumping = false;
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    //if(collision.gameObject.tag != "Ground" && collision.gameObject.tag != "Wall")
-    //    //    Jumping = true;
-    //}
 
     // ** 마우스 위치에 따라 플레이어가 그 방향을 보게 만듦
     void PlayerRotate()
     {
         float MouseX = Input.GetAxis("Mouse X");
-        transform.Rotate(Vector3.up * MouseX * RotateSpeed);        
+        transform.Rotate(Vector3.up * MouseX * RotateSpeed);     
+        
+        // ** 부드러운 회전 보류
         //RotationPlayerValue += MouseX * RotateSpeed;
         //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * RotationPlayerValue), 0.2f);
 
@@ -209,22 +173,7 @@ public class PlayerMoveController : MonoBehaviour
         CameraAngle -= MouseY * RotateSpeed;
         CameraAngle = Mathf.Clamp(CameraAngle, -90, 90);
 
-        
-        // ** 부모가 있는 경우 local로 변경
+        // ** 부모가 있는 경우 EulerAngles를 쓰면 작동이 되지 않음. localEulerAngles로 변경
         MainCamera.transform.localEulerAngles = Vector3.right * CameraAngle;    
-    }
-
-    // ** 점프값 셋팅
-    void Jump()
-    {
-    //    if (Jumping)
-    //        return;
-    //
-    //    Jumping = true;
-    //    Drop = false;
-    //    JumpSpeed = 8.0f;
-    //    OldPositionY = transform.position.y;
-        Rigid.AddForce(Vector3.up * 6.0f, ForceMode.Impulse);
-    }
-    
+    } 
 }
