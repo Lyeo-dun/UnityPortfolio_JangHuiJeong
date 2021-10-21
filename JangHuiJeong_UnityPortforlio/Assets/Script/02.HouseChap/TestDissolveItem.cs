@@ -41,6 +41,17 @@ public class TestDissolveItem : MonoBehaviour
             }
         }
     }
+
+    public void ResetRenderer()
+    {
+        foreach (var Dissolve in Dissolves)
+        {
+            foreach (var material in Dissolve.materials)
+            {
+                material.SetFloat("_Cutoff", 0);
+            }
+        }
+    }
     public void ChangeDissolveState()
     {
         isDissolve = true;

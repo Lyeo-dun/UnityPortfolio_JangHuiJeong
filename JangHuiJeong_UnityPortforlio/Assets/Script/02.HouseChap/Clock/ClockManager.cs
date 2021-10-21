@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class ClockManager : MonoBehaviour
 {
+    static ClockManager _Instance;
+
     [SerializeField] private GameObject[] Clocks;
 
-    private bool ClockEvent;
     private List<GameObject> ViewClock = new List<GameObject>();
     private int AlarmClockIndex; // ** 이벤트로 몇 번째 알람시계가 울릴건지 결정하는 Index
                                  // ** Index가 ViewClock의 Length보다 커지면 이후 이벤트 발생
@@ -14,6 +15,18 @@ public class ClockManager : MonoBehaviour
 
     private void Awake()
     {
+        {
+            if(_Instance == null)
+            {
+                _Instance = this;
+            }
+            else
+            {
+                if(_Instance != this)
+                    Destroy(gameObject);
+            }
+        }
+
         {
             List<int> ViewClockNum = new List<int>();
 
@@ -55,25 +68,38 @@ public class ClockManager : MonoBehaviour
             foreach (var Clock in ViewClock)
             {
                 Clock.transform.parent = ClockParent.transform;
-                Clock.GetComponent<ClockControl>().SetEventAlarm();
+                Destroy(Clock.GetComponent<ClockControl>());
+                Clock.AddComponent<EventAlarmControl>();
             }
         }
 
-        LastAlarm.GetComponent<ClockControl>().SetLastAlarm();
+        Destroy(LastAlarm.GetComponent<ClockControl>());
+        LastAlarm.AddComponent<LastAlarmControl>();
 
-        foreach(var Clock in Clocks)
+        foreach (var Clock in Clocks)
         {
             Clock.SetActive(false);
         }
 
         Clocks[0].SetActive(true);
+        Destroy(Clocks[0].GetComponent<ClockControl>());
+        Clocks[0].AddComponent<FirstAlarmControl>();
 
         AlarmClockIndex = 0;
-        ClockEvent = false;
+    }
+    public static ClockManager GetInstance()
+    {
+        return _Instance;
     }
 
     public void AddAlarmClockIndex(int _Value = 1)
     {
         AlarmClockIndex += _Value;
+    }
+
+    public void ViewClockEvent()
+    {
+        if(AlarmClockIndex < ViewClock.Count)
+            ViewClock[AlarmClockIndex].SetActive(true);
     }
 }

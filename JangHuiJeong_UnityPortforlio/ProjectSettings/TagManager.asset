@@ -11,6 +11,8 @@ TagManager:
   - Door
   - KeyDoor
   - Clock
+  - Fire
+  - Key
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,9 @@ public class KeyDoor : Door
     {
         base.Awake();
 
-        Key = Resources.Load("Prefabs/Key") as GameObject;
+        GameObject _Key = Resources.Load("Prefabs/Key") as GameObject;
+        Key = Instantiate<GameObject>(_Key);
+
         NeedKeyMessageUI = GameObject.Find("NeedKeyMessage");
     }
 
@@ -33,6 +35,11 @@ public class KeyDoor : Door
         else
         {
             StartCoroutine("ViewingCountMessage");
+
+            if(ClockManager.GetInstance() != null && GameManager.GetInstance().ClockEventState)
+            {
+                ClockManager.GetInstance().ViewClockEvent();
+            }
         }
     }
 

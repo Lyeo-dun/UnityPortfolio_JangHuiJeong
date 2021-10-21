@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
     public bool ViewText;
 
     [Header("Chapter 2")]
-    private bool FirstAlarmOff;
+    private bool isHaveKey;
+    [SerializeField] private bool _isClockEvent;
+    private bool isClockEventEnd;
 
     public static GameManager GetInstance()
     {
@@ -46,8 +48,17 @@ public class GameManager : MonoBehaviour
         }
 
         { // ** chap 2
-            FirstAlarmOff = false;
+            _isClockEvent = false;
+            isHaveKey = false;
+            isClockEventEnd = false;
         }
+    }
+
+    // ** Scene °ü¸®
+    public void NextStage()
+    {
+        SceneNumber += 1;
+        SceneManager.LoadScene(SceneNumber);
     }
 
     // ** chap 1
@@ -64,9 +75,38 @@ public class GameManager : MonoBehaviour
         PortalCount += _AddNum;
     }
 
-    public void NextStage()
+    // ** chap 2
+    public bool HaveKey
     {
-        SceneNumber += 1;
-        SceneManager.LoadScene(SceneNumber);
+        get
+        {
+            return isHaveKey;
+        }
+        set
+        {
+            isHaveKey = value;
+        }
+    }
+    public bool ClockEventEnd
+    {
+        get
+        {
+            return isClockEventEnd;
+        }
+        set
+        {
+            isClockEventEnd = value;
+        }
+    }
+    public bool ClockEventState
+    {
+        get
+        {
+            return _isClockEvent;
+        }
+        set
+        {
+            _isClockEvent = value;
+        }
     }
 }

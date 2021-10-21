@@ -22,7 +22,7 @@ public class PlayerMoveController : MonoBehaviour
 
     [SerializeField] private GameObject PressEKeyUI;
 
-
+    [SerializeField] private GameObject BringGameObejct;
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -37,7 +37,7 @@ public class PlayerMoveController : MonoBehaviour
         MoveSpeed = 5.0f;
         RotateSpeed = 3.5f;
         //RotationPlayerValue = 0;
-        InterectionDistance = 1.5f;
+        InterectionDistance = 2.0f;
 
         FlashLight.SetActive(false);
         isFlash = FlashLight.activeSelf;
@@ -77,7 +77,7 @@ public class PlayerMoveController : MonoBehaviour
                     {
                         if(hit.transform.tag == "Clock")
                         {
-                            hit.transform.gameObject.GetComponent<ClockControl>().DissolveAlarm();
+                            hit.transform.gameObject.GetComponent<ClockControl>().EventClock();
                         }
                         if(hit.transform.tag == "Door") 
                         {
