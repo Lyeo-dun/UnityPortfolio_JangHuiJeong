@@ -12,13 +12,22 @@ public class EventAlarmControl : ClockControl
 
     public override void EventClock()
     {
+        if (AlarmSound.isPlaying)
+            AlarmSound.Stop();
+
         ClockManager.GetInstance().AddAlarmClockIndex();
-        base.EventClock();
+
+        ClockDissolve.ChangeDissolveState();
     }
 
-    private void OnDisable()
+    public void NextViewClock()
     {
-        if(GameManager.GetInstance().ClockEventState)
+        if (GameManager.GetInstance().ClockEventState)
             ClockManager.GetInstance().ViewClockEvent();
+    }
+
+    public void OnDisable()
+    {
+        NextViewClock();
     }
 }

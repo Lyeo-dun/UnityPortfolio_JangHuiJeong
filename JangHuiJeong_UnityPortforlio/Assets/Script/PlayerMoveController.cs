@@ -22,7 +22,9 @@ public class PlayerMoveController : MonoBehaviour
 
     [SerializeField] private GameObject PressEKeyUI;
 
-    [SerializeField] private GameObject BringGameObejct;
+    [SerializeField] private GameObject BringGameObjectPosition;
+    [SerializeField] private GameObject HoldItem;
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -30,6 +32,7 @@ public class PlayerMoveController : MonoBehaviour
         FlashLight = GameObject.Find("FlashLight");
         PressEKeyUI = GameObject.Find("PressEKeyUI");
         Rigid = GetComponent<Rigidbody>();
+        BringGameObjectPosition = GameObject.Find("Player/BringObject");
     }
 
     void Start()
@@ -43,8 +46,9 @@ public class PlayerMoveController : MonoBehaviour
         isFlash = FlashLight.activeSelf;
 
         CameraAngle = 0.0f;
-
         CameraPos = new Vector3(0.0f, 0.5f, 0.0f);
+
+        HoldItem = null;
 
         PressEKeyUI.SetActive(false);
     }
@@ -55,35 +59,57 @@ public class PlayerMoveController : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            int _LayerMask = 1 << LayerMask.NameToLayer("Interaction");
-
-            if(PressEKeyUI != null)
+            if (HoldItem == null)
             {
-                PressEKeyUI.SetActive(false); // ** 조건문 전에 활성화를 꺼두면 조건이 만족하지 않는 이상은 계속 false 상태로 설정할 수 있다.
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, _LayerMask))
+                int _LayerMask = 1 << LayerMask.NameToLayer("Interaction");
+                if (PressEKeyUI != null)
                 {
-                    if(Vector3.Distance(hit.point, transform.position) <= InterectionDistance)
+                    PressEKeyUI.SetActive(false); // ** 조건문 전에 활성화를 꺼두면 조건이 만족하지 않는 이상은 계속 false 상태로 설정할 수 있다.
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, _LayerMask))
                     {
-                        PressEKeyUI.SetActive(true);
+                        if(Vector3.Distance(hit.point, transform.position) <= InterectionDistance)
+                        {
+                            PressEKeyUI.SetActive(true);
+                        }
                     }
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                if(HoldItem == null)
                 {
-                    if(Vector3.Distance(transform.position ,hit.point) <= InterectionDistance)
+
+                    if(Physics.Raycast(ray, out hit, Mathf.Infinity))
                     {
-                        if(hit.transform.tag == "Clock")
+                        if(Vector3.Distance(transform.position ,hit.point) <= InterectionDistance)
                         {
-                            hit.transform.gameObject.GetComponent<ClockControl>().EventClock();
+                            if(hit.transform.tag == "Clock")
+                            {
+                                if(!GameManager.GetInstance().ClockEventEnd)
+                                    hit.transform.gameObject.GetComponent<ClockControl>().EventClock();
+
+                                else
+                                {
+                                    HoldItem = hit.transform.gameObject;
+                                    HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock(BringGameObjectPosition);
+                                }
+                            }
+                            if(hit.transform.tag == "Door") 
+                            {
+                                hit.transform.gameObject.GetComponent<Door>().DoorCtl();
+                            }
+                            if(hit.transform.tag == "Key")
+                            {
+                                hit.transform.gameObject.GetComponent<KeyControl>().KeyEvent();
+                            }
                         }
-                        if(hit.transform.tag == "Door") 
-                        {
-                            hit.transform.gameObject.GetComponent<Door>().DoorCtl();
-                        }
-                    }                
+                    }
+                }
+                else
+                {
+                    HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock();
+                    HoldItem = null;
                 }
             }
 

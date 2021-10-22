@@ -14,6 +14,7 @@ public class KeyDoor : Door
 
         GameObject _Key = Resources.Load("Prefabs/Key") as GameObject;
         Key = Instantiate<GameObject>(_Key);
+        Key.GetComponent<KeyControl>().LinkDoor = gameObject;
 
         NeedKeyMessageUI = GameObject.Find("NeedKeyMessage");
     }
@@ -40,6 +41,12 @@ public class KeyDoor : Door
             {
                 ClockManager.GetInstance().ViewClockEvent();
             }
+
+            if (ClockManager.GetInstance() != null && GameManager.GetInstance().ClockEventEnd)
+            {
+                ClockManager.GetInstance().CallLastAlarmEvent();
+            }
+
         }
     }
 

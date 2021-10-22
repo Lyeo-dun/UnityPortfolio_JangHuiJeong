@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("Chapter 2")]
     private bool isHaveKey;
     [SerializeField] private bool _isClockEvent;
-    private bool isClockEventEnd;
+    [SerializeField] private bool isClockEventEnd; // ** 마지막 최종 이벤트 시작 체크
 
     public static GameManager GetInstance()
     {

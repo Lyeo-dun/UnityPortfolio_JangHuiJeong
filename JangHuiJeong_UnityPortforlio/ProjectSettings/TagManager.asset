@@ -13,6 +13,7 @@ TagManager:
   - Clock
   - Fire
   - Key
+  - Bring
   layers:
   - Default
   - TransparentFX

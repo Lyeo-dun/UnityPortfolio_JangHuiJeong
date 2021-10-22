@@ -34,7 +34,7 @@ public class ClockManager : MonoBehaviour
             {
                 int ClockIndex = Random.Range(0, Clocks.Length);
 
-                if (!ViewClockNum.Contains(ClockIndex))
+                if (!ViewClockNum.Contains(ClockIndex) && ClockIndex != 0)
                 {
                     ViewClockNum.Add(ClockIndex);
                     ViewClock.Add(Clocks[ClockIndex]);
@@ -53,10 +53,7 @@ public class ClockManager : MonoBehaviour
                 }
             }
         }
-    }
 
-    void Start()
-    {
         {
             GameObject ClockParent = GameObject.Find("NonAlarm");
             foreach (var Clock in Clocks)
@@ -75,6 +72,7 @@ public class ClockManager : MonoBehaviour
 
         Destroy(LastAlarm.GetComponent<ClockControl>());
         LastAlarm.AddComponent<LastAlarmControl>();
+        LastAlarm.transform.parent = transform.GetChild(2);
 
         foreach (var Clock in Clocks)
         {
@@ -85,6 +83,10 @@ public class ClockManager : MonoBehaviour
         Destroy(Clocks[0].GetComponent<ClockControl>());
         Clocks[0].AddComponent<FirstAlarmControl>();
 
+    }
+
+    void Start()
+    {
         AlarmClockIndex = 0;
     }
     public static ClockManager GetInstance()
@@ -95,11 +97,27 @@ public class ClockManager : MonoBehaviour
     public void AddAlarmClockIndex(int _Value = 1)
     {
         AlarmClockIndex += _Value;
+
+        if(AlarmClockIndex > ViewClock.Count - 1)
+        {
+            GameManager.GetInstance().ClockEventEnd = true;
+        }
+    }
+
+    public void CallLastAlarmEvent()
+    {
+        LastAlarm.SetActive(true);
     }
 
     public void ViewClockEvent()
     {
         if(AlarmClockIndex < ViewClock.Count)
+        {
             ViewClock[AlarmClockIndex].SetActive(true);
+        }
+        else
+        {
+            GameManager.GetInstance().ClockEventState = false;
+        }
     }
 }
