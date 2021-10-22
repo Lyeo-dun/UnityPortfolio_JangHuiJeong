@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     static GameManager _Instance = null;
 
-    private int SceneNumber;
+    [SerializeField] private int SceneNumber;
 
     [Header("Chapter 1")]
     [SerializeField] private int PortalCount;
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private bool isHaveKey;
     [SerializeField] private bool _isClockEvent;
     [SerializeField] private bool isClockEventEnd; // ** 마지막 최종 이벤트 시작 체크
+    private bool _GoThirdStage;
 
     public static GameManager GetInstance()
     {
@@ -41,9 +42,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        SceneNumber = SceneManager.sceneCount;
+
         { // ** chap 1
             PortalCount = 0;
-            SceneNumber = 0;
             ViewText = false;
         }
 
@@ -51,8 +53,10 @@ public class GameManager : MonoBehaviour
             _isClockEvent = false;
             isHaveKey = false;
             isClockEventEnd = false;
+            _GoThirdStage = false;
         }
     }
+
 
     // ** Scene 관리
     public void NextStage()
@@ -107,6 +111,17 @@ public class GameManager : MonoBehaviour
         set
         {
             _isClockEvent = value;
+        }
+    }
+    public bool GoThirdStage
+    {
+        get
+        {
+            return _GoThirdStage;
+        }
+        set
+        {
+            _GoThirdStage = value;
         }
     }
 }

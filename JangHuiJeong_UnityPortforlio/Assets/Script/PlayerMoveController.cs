@@ -6,7 +6,7 @@ public class PlayerMoveController : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float RotateSpeed;
-    //float RotationPlayerValue; // ** ºÎµå·¯¿î È¸Àü º¸·ù
+    //float RotationPlayerValue; // ** ë¶€ë“œëŸ¬ìš´ ì›€ì§ì„ì„ ìœ„í•œ ë³€ìˆ˜
     private float InterectionDistance;
 
     [SerializeField] private GameObject MainCamera;
@@ -16,7 +16,7 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField] private GameObject FlashLight;
     private bool isFlash;
 
-    // ** Á¡ÇÁ ±¸Çö
+    // ** ì í”„ ê´€ë ¨
     [SerializeField] private bool Jumping;
     private Rigidbody Rigid;
 
@@ -55,7 +55,7 @@ public class PlayerMoveController : MonoBehaviour
 
     void Update()
     {
-        // ** ¹°Ã¼¿ÍÀÇ »óÈ£ÀÛ¿ë
+        // ** í˜„ì¬ ì¸í„°ë ‰ì…˜ í•  ìˆ˜ ìˆëŠ”ì§€ UI ë„ì›€
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -64,7 +64,7 @@ public class PlayerMoveController : MonoBehaviour
                 int _LayerMask = 1 << LayerMask.NameToLayer("Interaction");
                 if (PressEKeyUI != null)
                 {
-                    PressEKeyUI.SetActive(false); // ** Á¶°Ç¹® Àü¿¡ È°¼ºÈ­¸¦ ²¨µÎ¸é Á¶°ÇÀÌ ¸¸Á·ÇÏÁö ¾Ê´Â ÀÌ»óÀº °è¼Ó false »óÅÂ·Î ¼³Á¤ÇÒ ¼ö ÀÖ´Ù.
+                    PressEKeyUI.SetActive(false); // ** UI ë„ìš°ê¸°
                     if (Physics.Raycast(ray, out hit, Mathf.Infinity, _LayerMask))
                     {
                         if(Vector3.Distance(hit.point, transform.position) <= InterectionDistance)
@@ -73,6 +73,10 @@ public class PlayerMoveController : MonoBehaviour
                         }
                     }
                 }
+            }
+            else
+            {
+                PressEKeyUI.SetActive(true);
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -101,18 +105,23 @@ public class PlayerMoveController : MonoBehaviour
                             }
                             if(hit.transform.tag == "Key")
                             {
-                                hit.transform.gameObject.GetComponent<KeyControl>().KeyEvent();
+                                hit.transform.parent.gameObject.GetComponent<KeyControl>().KeyEvent();
                             }
                         }
                     }
                 }
                 else
                 {
-                    HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock();
-                    HoldItem = null;
+                      HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock();
+                      HoldItem = null;
                 }
             }
 
+        }
+
+        if(BringGameObjectPosition.transform.childCount <= 0)
+        {
+            HoldItem = null; // ** ë¬¼ê±´ì„ ë“¤ê³ ìˆì–´ì•¼ í•  ìœ„ì¹˜ ê²Œì„ ì˜¤ë¸Œì íŠ¸ì— ìì‹ ì˜¤ë¸Œì íŠ¸ê°€ ì—†ë‹¤ë©´ ë“¤ê³  ìˆëŠ” ì•„ì´í…œì€ ì—†ìœ¼ë¯€ë¡œ nullë¡œ ë³€ê²½í•œë‹¤ 
         }
 
         if(Input.GetKeyDown(KeyCode.F))
@@ -128,13 +137,12 @@ public class PlayerMoveController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        // ** ÇÃ·¹ÀÌ¾î ÀÌµ¿
+        // ** í”Œë ˆì´ì–´ ì›€ì§ì„
         float Hor = Input.GetAxisRaw("Horizontal");
         float Ver = Input.GetAxisRaw("Vertical");
 
-        // ** ÇÃ·¹ÀÌ¾î°¡ °¥ ¹æÇâÀ¸·Î ·¹ÀÌ¸¦ ½ğ ÈÄ, Ãæµ¹¹°Ã¼¿Í °¡±õ´Ù¸é ¿òÁ÷ÀÌÁö ¾Êµµ·Ï ÇÑ´Ù.
-        // ** NavMash³ª Collider·Î¸¸ ¸·¾Ò´ø °á°ú, ÇÃ·¹ÀÌ¾î°¡ °¡°í ½ÍÀº °÷À¸·Î °¡Áö ¸øÇÏµµ·Ï Ãæµ¹ÇÏ°Ô µÇ¸é ÇÃ·¹ÀÌ¾î°¡ ¶³¸®´Â Çö»óÀÌ ¹ß»ıÇÏ¿© ÃßÈÄ ÇÃ·¹ÀÌ¾î¸¦ Á¶ÀÛÇÏÁö ¾ÊÀ½¿¡µµ
-        // ** ÇÃ·¹ÀÌ¾î°¡ µ¹¾Æ°¡´Â Çö»óÀ» ¹ß°ßÇÏ¿© Çö»óÀ» ¸·±â À§ÇØ ·¹ÀÌ¸¦ ½î°í Ãæµ¹¹°Ã¼¿Í ÀÏÁ¤ °Å¸®°¡ µÇ¸é ¿òÁ÷ÀÌÁö ¾Êµµ·Ï ÇÔ
+        // ** Colliderë‚˜ NavMeshë¡œ ì œì–´í•˜ë©´ ë²½ì— ë¶€ë”ªíŒ í›„ ë²½ ìª½ìœ¼ë¡œ ì´ë™í•˜ë ¤ í•  ì‹œ ìºë¦­í„°ê°€ ëœëœ ë–¨ë¦¬ëŠ” í˜„ìƒì´ ìˆìŒ
+        // ** ë”°ë¼ì„œ ê°€ë ¤ëŠ” ë°©í–¥ì— ë²½ì´ ìˆë‹¤ë©´ ì¼ì • ê±°ë¦¬ë¥¼ ë‘ê²Œ ë§Œë“¦
         {
             float ObstacleMinDistance = 0.5f;
             RaycastHit hit;
@@ -150,7 +158,7 @@ public class PlayerMoveController : MonoBehaviour
                     transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
                 }
             }
-            else // ** ¸¸¾à ÇöÀç ÀÖ´Â °÷ÀÌ ¸·È÷Áö ¾ÊÀº ³ĞÀº Æò¾ß¶ó¸é Á¦ÇÑ¾øÀÌ ¿òÁ÷ÀÏ ¼ö ÀÖ°Ô ÇÑ´Ù.
+            else // ** ë¶€ë”ªíˆëŠ” ë²½ì´ ì—†ë‹¤ëŠ” ê²ƒì€ ë„“ì€ í‰ì•¼ë¼ëŠ” ê²ƒì´ê¸° ë•Œë¬¸ì— ììœ ë¡­ê²Œ ì›€ì§ì´ê²Œ í•œë‹¤
             {
                 transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
             }
@@ -185,13 +193,13 @@ public class PlayerMoveController : MonoBehaviour
 
     }
 
-    // ** ¸¶¿ì½º À§Ä¡¿¡ µû¶ó ÇÃ·¹ÀÌ¾î°¡ ±× ¹æÇâÀ» º¸°Ô ¸¸µê
+    // ** í”Œë ˆì´ì–´ íšŒì „
     void PlayerRotate()
     {
         float MouseX = Input.GetAxis("Mouse X");
         transform.Rotate(Vector3.up * MouseX * RotateSpeed);     
         
-        // ** ºÎµå·¯¿î È¸Àü º¸·ù
+        // ** ë¶€ë“œëŸ¬ìš´ íšŒì „ê³¼ ê´€ë ¨
         //RotationPlayerValue += MouseX * RotateSpeed;
         //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * RotationPlayerValue), 0.2f);
 
@@ -199,7 +207,8 @@ public class PlayerMoveController : MonoBehaviour
         CameraAngle -= MouseY * RotateSpeed;
         CameraAngle = Mathf.Clamp(CameraAngle, -90, 90);
 
-        // ** ºÎ¸ğ°¡ ÀÖ´Â °æ¿ì EulerAngles¸¦ ¾²¸é ÀÛµ¿ÀÌ µÇÁö ¾ÊÀ½. localEulerAngles·Î º¯°æ
+        // ** EulerAnglesì„ ì“¸ ì‹œ ì¹´ë©”ë¼ëŠ” íšŒì „í•˜ì§€ë§Œ í”Œë ˆì´ì–´ëŠ” íšŒì „í•˜ì§€ ì•ŠìŒ
+        // ** ì¹´ë©”ë¼ì˜ íšŒì „ë§Œ ë‹´ë‹¹í•´ì•¼í•˜ë¯€ë¡œ localEulerAnglesë¡œ ë³€ê²½
         MainCamera.transform.localEulerAngles = Vector3.right * CameraAngle;    
     } 
 }

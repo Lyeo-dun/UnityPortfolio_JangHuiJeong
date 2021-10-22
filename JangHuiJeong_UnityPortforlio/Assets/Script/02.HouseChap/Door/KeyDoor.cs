@@ -7,6 +7,7 @@ public class KeyDoor : Door
     [SerializeField] private bool isKey;
     [SerializeField] private GameObject Key;
     [SerializeField] private GameObject NeedKeyMessageUI;
+    [SerializeField] private AudioSource DoorAudio;
 
     protected override void Awake()
     {
@@ -15,8 +16,11 @@ public class KeyDoor : Door
         GameObject _Key = Resources.Load("Prefabs/Key") as GameObject;
         Key = Instantiate<GameObject>(_Key);
         Key.GetComponent<KeyControl>().LinkDoor = gameObject;
+        FireControl.GetInstance().SettingKey(Key);
 
         NeedKeyMessageUI = GameObject.Find("NeedKeyMessage");
+
+        DoorAudio = GetComponent<AudioSource>();
     }
 
     protected override void Start()
@@ -58,6 +62,8 @@ public class KeyDoor : Door
     public void OpenDoor()
     {
         isKey = true;
+        DoorAudio.Play();
+        GameManager.GetInstance().GoThirdStage = true;
     }
 
     IEnumerator ViewingCountMessage()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ClockManager : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class ClockManager : MonoBehaviour
     private List<GameObject> ViewClock = new List<GameObject>();
     private int AlarmClockIndex; // ** 이벤트로 몇 번째 알람시계가 울릴건지 결정하는 Index
                                  // ** Index가 ViewClock의 Length보다 커지면 이후 이벤트 발생
+
+    private GameObject ClockCountUI;
+    private Text ClockCountText; // ** 찾아야하는 시계 갯수 표시
+
     private GameObject LastAlarm;
 
     private void Awake()
@@ -46,7 +51,7 @@ public class ClockManager : MonoBehaviour
             {
                 int ClockIndex = Random.Range(0, Clocks.Length);
 
-                if (!ViewClockNum.Contains(ClockIndex))
+                if (!ViewClockNum.Contains(ClockIndex) && ClockIndex != 0)
                 {                    
                     LastAlarm = Clocks[ClockIndex];
                     break;
@@ -83,11 +88,14 @@ public class ClockManager : MonoBehaviour
         Destroy(Clocks[0].GetComponent<ClockControl>());
         Clocks[0].AddComponent<FirstAlarmControl>();
 
+        ClockCountUI = GameObject.Find("ClockCount");
+        ClockCountText = ClockCountUI.transform.GetChild(0).GetComponent<Text>();
     }
 
     void Start()
     {
         AlarmClockIndex = 0;
+        ClockCountUI.SetActive(false);
     }
     public static ClockManager GetInstance()
     {
@@ -96,7 +104,13 @@ public class ClockManager : MonoBehaviour
 
     public void AddAlarmClockIndex(int _Value = 1)
     {
+        if (!ClockCountUI.activeSelf)
+        {
+            ClockCountUI.SetActive(true);
+        }
+
         AlarmClockIndex += _Value;
+        ClockCountText.text = AlarmClockIndex.ToString() + " / 5";
 
         if(AlarmClockIndex > ViewClock.Count - 1)
         {

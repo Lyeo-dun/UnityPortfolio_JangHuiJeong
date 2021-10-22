@@ -29,7 +29,7 @@ public class LastAlarmControl : ClockControl
             PutItem();
     }
 
-    public void HoldItem(GameObject ParentsObject)
+    public void HoldItem(GameObject ParentsObject = null)
     {
         isHold = true;
 
@@ -37,6 +37,11 @@ public class LastAlarmControl : ClockControl
         GetComponent<Rigidbody>().isKinematic = true;
         transform.position = ParentsObject.transform.position;
         transform.parent = ParentsObject.transform;
+
+        if(FireControl.GetInstance())
+        {
+            FireControl.GetInstance().TurnOnFire();
+        }
     }
 
     void PutItem()
@@ -45,5 +50,17 @@ public class LastAlarmControl : ClockControl
 
         transform.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         transform.parent = null;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Fire")
+        {
+            PutItem();
+            ClockDissolve.ChangeDissolveState();
+            GetComponent<Collider>().enabled = true;
+
+            FireControl.GetInstance().TurnOffFire();
+        }
     }
 }

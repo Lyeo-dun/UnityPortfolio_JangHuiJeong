@@ -32,6 +32,7 @@ public class KeyControl : MonoBehaviour
     public void KeyEvent()
     {
         LinkDoor.GetComponent<KeyDoor>().OpenDoor();
+        gameObject.SetActive(false);
     }
 
     public void KeyShowing()
