@@ -17,7 +17,7 @@ public class NextStageDoorCtl : MonoBehaviour
                 NextTrigger = coll;
         }
 
-        NextDoorMat = Resources.Load("Material/Chap1/TunnelPortal", typeof(Material)) as Material;
+        NextDoorMat = Resources.Load("Material/01.Tunnel&Home/TunnelPortal", typeof(Material)) as Material;
     }
 
     private void Start()

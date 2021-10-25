@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool isClockEventEnd; // ** 마지막 최종 이벤트 시작 체크
     private bool _GoThirdStage;
 
+    //Chapter 3
+    [SerializeField] private int RoomNumber;
+
+
     public static GameManager GetInstance()
     {
         return _Instance;
@@ -42,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SceneNumber = SceneManager.sceneCount;
+        SceneNumber = SceneManager.GetActiveScene().buildIndex;
 
         { // ** chap 1
             PortalCount = 0;

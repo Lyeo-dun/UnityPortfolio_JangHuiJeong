@@ -16,7 +16,6 @@ public class KeyDoor : Door
         GameObject _Key = Resources.Load("Prefabs/Key") as GameObject;
         Key = Instantiate<GameObject>(_Key);
         Key.GetComponent<KeyControl>().LinkDoor = gameObject;
-        FireControl.GetInstance().SettingKey(Key);
 
         NeedKeyMessageUI = GameObject.Find("NeedKeyMessage");
 
@@ -27,6 +26,8 @@ public class KeyDoor : Door
     {
         base.Start();
 
+        if(FireControl.GetInstance())
+            FireControl.GetInstance().SettingKey(Key);
         isKey = false;
         NeedKeyMessageUI.SetActive(false);
     }
