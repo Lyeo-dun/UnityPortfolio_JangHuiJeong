@@ -17,6 +17,7 @@ public class Door : MonoBehaviour
     protected virtual void Start()
     {
         isOpen = false;
+        gameObject.tag = "Door";
     }
 
     public virtual void DoorCtl()

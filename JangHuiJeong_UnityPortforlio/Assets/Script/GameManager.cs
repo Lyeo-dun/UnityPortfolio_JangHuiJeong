@@ -6,8 +6,19 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     static GameManager _Instance = null;
+    public static GameManager GetInstance()
+    {
+        return _Instance;
+    }
 
-    [SerializeField] private int SceneNumber;
+    [SerializeField] private int _SceneNumber;
+    public int SceneNumber
+    {
+        get
+        {
+            return _SceneNumber;
+        }
+    }
 
     [Header("Chapter 1")]
     [SerializeField] private int PortalCount;
@@ -21,12 +32,6 @@ public class GameManager : MonoBehaviour
 
     //Chapter 3
     [SerializeField] private int RoomNumber;
-
-
-    public static GameManager GetInstance()
-    {
-        return _Instance;
-    }
 
     private void Awake()
     {
@@ -46,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SceneNumber = SceneManager.GetActiveScene().buildIndex;
+        _SceneNumber = SceneManager.GetActiveScene().buildIndex;
 
         { // ** chap 1
             PortalCount = 0;
@@ -65,8 +70,8 @@ public class GameManager : MonoBehaviour
     // ** Scene °ü¸®
     public void NextStage()
     {
-        SceneNumber += 1;
-        SceneManager.LoadScene(SceneNumber);
+        _SceneNumber += 1;
+        SceneManager.LoadScene(_SceneNumber);
     }
 
     // ** chap 1

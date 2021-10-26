@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof(AudioSource))]
 public class KeyDoor : Door
 {
     [SerializeField] private bool isKey;
     [SerializeField] private GameObject Key;
     [SerializeField] private GameObject NeedKeyMessageUI;
-    [SerializeField] private AudioSource DoorAudio;
 
+    [SerializeField] private AudioSource DoorAudio;
+    private AudioClip DoorOpenSound;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -20,14 +23,18 @@ public class KeyDoor : Door
         NeedKeyMessageUI = GameObject.Find("NeedKeyMessage");
 
         DoorAudio = GetComponent<AudioSource>();
+        DoorOpenSound = Resources.Load("Audio/door-open") as AudioClip;
+        DoorAudio.clip = DoorOpenSound;
     }
 
     protected override void Start()
     {
         base.Start();
 
-        if(FireControl.GetInstance())
-            FireControl.GetInstance().SettingKey(Key);
+        if(GameManager.GetInstance().SceneNumber == 2) // ** Stage가 2가 아니면 실행되지 않는다
+            if(FireControl.GetInstance())
+                FireControl.GetInstance().SettingKey(Key); // ** Stage 2의 마지막 이벤트 객체를 넘긴다.
+
         isKey = false;
         NeedKeyMessageUI.SetActive(false);
     }
@@ -42,14 +49,17 @@ public class KeyDoor : Door
         {
             StartCoroutine("ViewingCountMessage");
 
-            if(ClockManager.GetInstance() != null && GameManager.GetInstance().ClockEventState)
+            if (GameManager.GetInstance().SceneNumber == 2)
             {
-                ClockManager.GetInstance().ViewClockEvent();
-            }
-
-            if (ClockManager.GetInstance() != null && GameManager.GetInstance().ClockEventEnd)
-            {
-                ClockManager.GetInstance().CallLastAlarmEvent();
+                if (ClockManager.GetInstance() != null && GameManager.GetInstance().ClockEventState)
+                {
+                    ClockManager.GetInstance().ViewClockEvent();
+                }
+    
+                if (ClockManager.GetInstance() != null && GameManager.GetInstance().ClockEventEnd)
+                {
+                    ClockManager.GetInstance().CallLastAlarmEvent();
+                }
             }
 
         }
@@ -64,7 +74,9 @@ public class KeyDoor : Door
     {
         isKey = true;
         DoorAudio.Play();
-        GameManager.GetInstance().GoThirdStage = true;
+
+        if (GameManager.GetInstance().SceneNumber == 2)
+            GameManager.GetInstance().GoThirdStage = true;
     }
 
     IEnumerator ViewingCountMessage()
