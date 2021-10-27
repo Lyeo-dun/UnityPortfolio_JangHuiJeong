@@ -15,8 +15,10 @@ public class BringItem : MonoBehaviour
     {
         isHold = true;
 
+        GetComponent<Collider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
         transform.position = ParentsObject.transform.position;
+        transform.rotation = ParentsObject.transform.rotation;
         transform.parent = ParentsObject.transform;
     }
 
@@ -24,6 +26,7 @@ public class BringItem : MonoBehaviour
     {
         isHold = false;
 
+        GetComponent<Collider>().enabled = true;
         transform.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         transform.parent = null;
     }

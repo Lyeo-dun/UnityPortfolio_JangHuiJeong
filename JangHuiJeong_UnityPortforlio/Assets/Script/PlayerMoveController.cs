@@ -13,11 +13,9 @@ public class PlayerMoveController : MonoBehaviour
     private float CameraAngle;
     private Vector3 CameraPos;
 
-    [SerializeField] private GameObject FlashLight;
-    private bool isFlash;
-
     // ** 점프 관련
     [SerializeField] private bool Jumping;
+    private int JumpCount;
     private Rigidbody Rigid;
 
     [SerializeField] private GameObject PressEKeyUI;
@@ -29,10 +27,9 @@ public class PlayerMoveController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         MainCamera = Camera.main.gameObject;
-        FlashLight = GameObject.Find("FlashLight");
         PressEKeyUI = GameObject.Find("PressEKeyUI");
         Rigid = GetComponent<Rigidbody>();
-        BringGameObjectPosition = GameObject.Find("Player/BringObject");
+        BringGameObjectPosition = GameObject.Find("Player/Main Camera/BringObject");
     }
 
     void Start()
@@ -42,13 +39,13 @@ public class PlayerMoveController : MonoBehaviour
         //RotationPlayerValue = 0;
         InterectionDistance = 2.0f;
 
-        FlashLight.SetActive(false);
-        isFlash = FlashLight.activeSelf;
-
         CameraAngle = 0.0f;
         CameraPos = new Vector3(0.0f, 0.5f, 0.0f);
 
         HoldItem = null;
+
+        Jumping = false;
+        JumpCount = 0;
 
         PressEKeyUI.SetActive(false);
     }
@@ -107,12 +104,23 @@ public class PlayerMoveController : MonoBehaviour
                             {
                                 hit.transform.parent.gameObject.GetComponent<KeyControl>().KeyEvent();
                             }
+
+                            if(hit.transform.tag == "Bring")
+                            {
+                                HoldItem = hit.transform.gameObject;
+                                HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
+                            }
                         }
                     }
                 }
                 else
                 {
+                    if(HoldItem.gameObject.GetComponent<LastAlarmControl>())
                       HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock();
+
+                    if (HoldItem.gameObject.GetComponent<BringItem>())
+                      HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
+                    
                       HoldItem = null;
                 }
             }
@@ -124,16 +132,11 @@ public class PlayerMoveController : MonoBehaviour
             HoldItem = null; // ** 물건을 들고있어야 할 위치 게임 오브젝트에 자식 오브젝트가 없다면 들고 있는 아이템은 없으므로 null로 변경한다 
         }
 
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            isFlash = !isFlash;
-            FlashLight.SetActive(isFlash);
-        }
-
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Jumping = true;            
-        }       
+            if(JumpCount == 0)
+                Jumping = true;
+        }
     }
     private void FixedUpdate()
     {
@@ -180,11 +183,7 @@ public class PlayerMoveController : MonoBehaviour
             }
         }
 
-        if (Jumping)
-        {
-            Rigid.AddForce(Vector3.up * 6.0f, ForceMode.Impulse);
-            Jumping = false;
-        }
+        Jump();
 
         if (Input.GetMouseButton(1))
             PlayerRotate();
@@ -192,7 +191,10 @@ public class PlayerMoveController : MonoBehaviour
         MainCamera.transform.position = transform.position + CameraPos;
 
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        JumpCount = 0;
+    }
     // ** 플레이어 회전
     void PlayerRotate()
     {
@@ -205,10 +207,20 @@ public class PlayerMoveController : MonoBehaviour
 
         float MouseY = Input.GetAxis("Mouse Y");
         CameraAngle -= MouseY * RotateSpeed;
-        CameraAngle = Mathf.Clamp(CameraAngle, -90, 90);
+        CameraAngle = Mathf.Clamp(CameraAngle, -90, 60);
 
         // ** EulerAngles을 쓸 시 카메라는 회전하지만 플레이어는 회전하지 않음
         // ** 카메라의 회전만 담당해야하므로 localEulerAngles로 변경
         MainCamera.transform.localEulerAngles = Vector3.right * CameraAngle;    
     } 
+
+    void Jump()
+    {
+        if (!Jumping)
+            return;
+
+        Rigid.AddForce(Vector3.up * 6.0f, ForceMode.Impulse);
+        Jumping = false;
+        JumpCount = 1;
+    }
 }
