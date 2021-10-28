@@ -23,6 +23,14 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField] private GameObject BringGameObjectPosition;
     [SerializeField] private GameObject HoldItem;
 
+    public bool PlayerGrab()
+    {
+        if (HoldItem)
+            return true;
+
+        return false;
+    }
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -109,6 +117,11 @@ public class PlayerMoveController : MonoBehaviour
                             {
                                 HoldItem = hit.transform.gameObject;
                                 HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
+                            }
+
+                            if(hit.transform.tag == "Switch")
+                            {
+                                hit.transform.gameObject.GetComponent<SwitchCtrl>().ViewEyes();
                             }
                         }
                     }

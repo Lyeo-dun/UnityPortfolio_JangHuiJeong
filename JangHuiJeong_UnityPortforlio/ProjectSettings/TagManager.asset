@@ -14,6 +14,7 @@ TagManager:
   - Fire
   - Key
   - Bring
+  - Switch
   layers:
   - Default
   - TransparentFX
