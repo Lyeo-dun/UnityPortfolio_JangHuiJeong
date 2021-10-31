@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool isClockEventEnd; // ** 마지막 최종 이벤트 시작 체크
     private bool _GoThirdStage;
 
-    //Chapter 3
+    [Header("Chapter 3")]
     [SerializeField] private int RoomNumber;
 
     private void Awake()
@@ -132,5 +132,18 @@ public class GameManager : MonoBehaviour
         {
             _GoThirdStage = value;
         }
+    }
+
+    // ** Chap 3
+    public void InRoom(int _Index = 1)
+    {
+        _SceneNumber = 2; // ** chap 3으로 돌아갈 것
+        
+        RoomNumber = _Index + SceneNumber;
+        SceneManager.LoadScene(RoomNumber);
+    }
+    public void OutRoom()
+    {
+        SceneManager.LoadScene(SceneNumber);
     }
 }

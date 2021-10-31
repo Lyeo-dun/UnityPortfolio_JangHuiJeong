@@ -15,6 +15,7 @@ TagManager:
   - Key
   - Bring
   - Switch
+  - Box
   layers:
   - Default
   - TransparentFX

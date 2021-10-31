@@ -27444,6 +27444,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tunnel (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3285502627296024751, guid: 9f9d7c19f8f82674b8ea1b387c2ee202, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4697798546017743170, guid: 9f9d7c19f8f82674b8ea1b387c2ee202, type: 3}
       propertyPath: m_Name
       value: FakeExit

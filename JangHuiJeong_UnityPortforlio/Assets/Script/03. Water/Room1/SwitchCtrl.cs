@@ -13,6 +13,6 @@ public class SwitchCtrl : MonoBehaviour
 
     public void ViewEyes()
     {
-        Object1.GetComponent<ObjectManager>().ViewHeads();
+        Object1.GetComponent<ObjectManager>().Switching();
     }
 }

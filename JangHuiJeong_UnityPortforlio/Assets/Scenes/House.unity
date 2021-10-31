@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 180716053}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11705,7 +11705,7 @@ GameObject:
   - component: {fileID: 749683512}
   m_Layer: 0
   m_Name: UnderWaterFloor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22611,7 +22611,7 @@ GameObject:
   - component: {fileID: 1156152067}
   m_Layer: 0
   m_Name: NextStageFloor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27616,6 +27616,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6a652f999c6bd5e4fbbf936d78960068, type: 2}
+    - target: {fileID: 508349482650451543, guid: 5a612181c424db94d97a080c80a44440, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 529493435061811044, guid: 5a612181c424db94d97a080c80a44440, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -27984,6 +27988,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6a652f999c6bd5e4fbbf936d78960068, type: 2}
+    - target: {fileID: 3638397826551968861, guid: 5a612181c424db94d97a080c80a44440, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 3678058103023939502, guid: 5a612181c424db94d97a080c80a44440, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
