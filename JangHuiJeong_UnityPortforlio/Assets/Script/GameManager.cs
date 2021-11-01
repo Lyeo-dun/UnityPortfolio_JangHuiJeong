@@ -177,6 +177,10 @@ public class GameManager : MonoBehaviour
 
     public bool PlayerSettingPos
     {
+        set
+        {
+            WallsEvent = value;
+        }
         get
         {
             return WallsEvent;

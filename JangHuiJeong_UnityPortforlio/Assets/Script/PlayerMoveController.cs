@@ -39,10 +39,12 @@ public class PlayerMoveController : MonoBehaviour
         Rigid = GetComponent<Rigidbody>();
         BringGameObjectPosition = GameObject.Find("Player/Main Camera/BringObject");
 
-        if(GameManager.GetInstance().PlayerSettingPos)
-        {
-            transform.position = GameManager.GetInstance().PlayerPos;
-        }
+        if(GameManager.GetInstance().SceneNumber == 2 && !GameManager.GetInstance().isInRoom)
+            if(GameManager.GetInstance().PlayerSettingPos)
+            {
+                transform.position = GameManager.GetInstance().PlayerPos;
+                transform.rotation = new Quaternion(0.0f, 180.0f, 0.0f, 0.0f);
+            }
     }
 
     void Start()
