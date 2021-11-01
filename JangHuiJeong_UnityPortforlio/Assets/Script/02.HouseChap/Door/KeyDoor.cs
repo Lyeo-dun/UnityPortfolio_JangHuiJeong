@@ -16,9 +16,12 @@ public class KeyDoor : Door
     {
         base.Awake();
 
-        GameObject _Key = Resources.Load("Prefabs/Key") as GameObject;
-        Key = Instantiate<GameObject>(_Key);
-        Key.GetComponent<KeyControl>().LinkDoor = gameObject;
+        if(GameManager.GetInstance().SceneNumber == 1) // ** Stage가 1가 아니면 실행되지 않는다
+        {
+            GameObject _Key = Resources.Load("Prefabs/Key") as GameObject;
+            Key = Instantiate<GameObject>(_Key);
+            Key.GetComponent<KeyControl>().LinkDoor = gameObject;
+        }
 
         NeedKeyMessageUI = GameObject.Find("NeedKeyMessage");
 
@@ -31,7 +34,7 @@ public class KeyDoor : Door
     {
         base.Start();
 
-        if(GameManager.GetInstance().SceneNumber == 1) // ** Stage가 1가 아니면 실행되지 않는다
+        if(GameManager.GetInstance().SceneNumber == 1) 
             if(FireControl.GetInstance())
                 FireControl.GetInstance().SettingKey(Key); // ** Stage 1의 마지막 이벤트 객체를 넘긴다.
 

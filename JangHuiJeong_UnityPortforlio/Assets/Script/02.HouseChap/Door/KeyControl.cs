@@ -21,18 +21,30 @@ public class KeyControl : MonoBehaviour
 
     private void Awake()
     {
-        KeyModeling = transform.GetChild(0).gameObject;
+        if(GameManager.GetInstance().SceneNumber == 1)
+            KeyModeling = transform.GetChild(0).gameObject;
     }
 
     private void Start()
     {
-        KeyModeling.SetActive(false);
+        if (GameManager.GetInstance().SceneNumber == 1)
+            KeyModeling.SetActive(false);
     }    
     
     public void KeyEvent()
     {
-        LinkDoor.GetComponent<KeyDoor>().OpenDoor();
-        gameObject.SetActive(false);
+        if (GameManager.GetInstance().SceneNumber == 1)
+        {
+            LinkDoor.GetComponent<KeyDoor>().OpenDoor();
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            {
+                LinkDoor.GetComponent<KeyDoor>().OpenDoor();
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     public void KeyShowing()

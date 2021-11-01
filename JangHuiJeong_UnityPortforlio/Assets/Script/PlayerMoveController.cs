@@ -38,6 +38,11 @@ public class PlayerMoveController : MonoBehaviour
         PressEKeyUI = GameObject.Find("PressEKeyUI");
         Rigid = GetComponent<Rigidbody>();
         BringGameObjectPosition = GameObject.Find("Player/Main Camera/BringObject");
+
+        if(GameManager.GetInstance().PlayerSettingPos)
+        {
+            transform.position = GameManager.GetInstance().PlayerPos;
+        }
     }
 
     void Start()
@@ -110,7 +115,13 @@ public class PlayerMoveController : MonoBehaviour
                             }
                             if(hit.transform.tag == "Key")
                             {
-                                hit.transform.parent.gameObject.GetComponent<KeyControl>().KeyEvent();
+                                if(GameManager.GetInstance().SceneNumber == 1)
+                                    hit.transform.parent.gameObject.GetComponent<KeyControl>().KeyEvent();
+                                else
+                                {
+                                    hit.transform.gameObject.GetComponent<KeyControl>().KeyEvent();
+                                }
+
                             }
 
                             if(hit.transform.tag == "Bring")

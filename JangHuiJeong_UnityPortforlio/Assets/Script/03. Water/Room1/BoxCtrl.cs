@@ -54,6 +54,7 @@ public class BoxCtrl : Door
     {
         LockBox = true;
     }
+
     public override void DoorCtl()
     {
         if (LockBox)

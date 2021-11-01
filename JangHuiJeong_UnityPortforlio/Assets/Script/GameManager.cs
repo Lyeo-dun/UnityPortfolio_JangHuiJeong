@@ -25,13 +25,17 @@ public class GameManager : MonoBehaviour
     public bool ViewText;
 
     [Header("Chapter 2")]
-    private bool isHaveKey;
     [SerializeField] private bool _isClockEvent;
     [SerializeField] private bool isClockEventEnd; // ** 마지막 최종 이벤트 시작 체크
+    private bool isHaveKey;
     private bool _GoThirdStage;
 
     [Header("Chapter 3")]
     [SerializeField] private int RoomNumber;
+    [SerializeField] private List<int> LastPassWord;
+    [SerializeField] private bool _isInRoom;
+    private Vector3 PlayerRepawnPos;
+    private bool WallsEvent;
 
     private void Awake()
     {
@@ -64,13 +68,19 @@ public class GameManager : MonoBehaviour
             isClockEventEnd = false;
             _GoThirdStage = false;
         }
+
+        {
+            RoomNumber = 0; // ** 0은 현재 룸을 한 번도 가지 않는 상태를 의미한다.
+            PlayerRepawnPos = new Vector3(0.0f, 1.0f, 20.0f);
+            WallsEvent = false;
+        }
     }
 
 
     // ** Scene 관리
-    public void NextStage()
+    public void NextStage(int _Index = 1)
     {
-        _SceneNumber += 1;
+        _SceneNumber += _Index;
         SceneManager.LoadScene(_SceneNumber);
     }
 
@@ -135,15 +145,55 @@ public class GameManager : MonoBehaviour
     }
 
     // ** Chap 3
-    public void InRoom(int _Index = 1)
+    public int RoomNum
+    {
+        set
+        {
+            RoomNumber = value;
+        }
+        get
+        {
+            return RoomNumber;
+        }
+    }
+    public bool isInRoom
+    {
+        set
+        {
+            _isInRoom = value;
+        }
+        get
+        {
+            return _isInRoom;
+        }
+    }
+    public Vector3 PlayerPos
+    {
+        get
+        {
+            return PlayerRepawnPos;
+        }
+    }
+
+    public bool PlayerSettingPos
+    {
+        get
+        {
+            return WallsEvent;
+        }
+    }
+    public void InRoom()
     {
         _SceneNumber = 2; // ** chap 3으로 돌아갈 것
         
-        RoomNumber = _Index + SceneNumber;
-        SceneManager.LoadScene(RoomNumber);
+        SceneManager.LoadScene(RoomNumber + SceneNumber);
     }
     public void OutRoom()
     {
         SceneManager.LoadScene(SceneNumber);
+    }
+    public void SettingPassword(int _Index)
+    {
+        LastPassWord.Add(_Index);
     }
 }
