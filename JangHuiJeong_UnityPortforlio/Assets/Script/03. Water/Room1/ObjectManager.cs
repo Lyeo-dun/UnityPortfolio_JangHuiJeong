@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
+    [SerializeField] private int ObjectManagerNum;
+
     [SerializeField] private GameObject SpotLignts;
     [SerializeField] private GameObject Heads;
     [SerializeField] private GameObject Switch;
@@ -17,44 +19,65 @@ public class ObjectManager : MonoBehaviour
 
     private void Awake()
     {
-        SpotLignts = GameObject.Find("Object1/SpotLignts");
-        Heads = GameObject.Find("Object1/Heads");
-        SoulBox = GameObject.Find("Object1/Box/BoxHead");
-        SoulPos = GameObject.Find("Object1/SoulPosition");
-        Switch = GameObject.Find("Object1/Switch");
-
-        RoomDoor = GameObject.Find("Door");
-
-        Object[] objs = Resources.LoadAll("Prefabs/Gems Prefabs");
-        foreach(var obj in objs)
         {
-            Souls.Add(obj as GameObject);
+            string ObjName = gameObject.name;
+            ObjName = ObjName.Replace("Object", "");
+
+            int.TryParse(ObjName, out ObjectManagerNum);
+        }
+        {
+            Object[] objs = Resources.LoadAll("Prefabs/Gems Prefabs");
+            foreach(var obj in objs)
+            {
+                Souls.Add(obj as GameObject);
+            }
+
+            SoulBox = GameObject.Find("Box/BoxHead");
+            SoulPos = GameObject.Find("SoulPosition");
+            RoomDoor = GameObject.Find("Door");
+        }
+
+        if(ObjectManagerNum == 1)
+        {
+            SpotLignts = GameObject.Find("Object1/SpotLignts");
+            Heads = GameObject.Find("Object1/Heads");
+            Switch = GameObject.Find("Object1/Switch");
         }
     }
 
     void Start()
     {
-        SpotLignts.SetActive(false);
-        Heads.SetActive(false);
+        GameManager.GetInstance().isInRoom = true;
+        GameManager.GetInstance().RoomNum = ObjectManagerNum;
 
-        SoulNumber = Random.Range(0, Souls.Count) + 1;
-        GameManager.GetInstance().SettingPassword(SoulNumber);
+        {
+            SoulNumber = Random.Range(0, Souls.Count) + 1;
+            GameManager.GetInstance().SettingPassword(SoulNumber);
 
-        GameObject Soul = Instantiate<GameObject>(Souls[SoulNumber - 1], SoulPos.transform);
-        Soul.GetComponent<KeyControl>().LinkDoor = RoomDoor;
+            GameObject Soul = Instantiate<GameObject>(Souls[SoulNumber - 1], SoulPos.transform);
+            Soul.GetComponent<KeyControl>().LinkDoor = RoomDoor;
+        }
 
-        Switch.SetActive(false);
+        if (ObjectManagerNum == 1)
+        {
+            SpotLignts.SetActive(false);
+            Heads.SetActive(false);
+            Switch.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        if(Heads.activeSelf && SpotLignts.activeSelf)
+        if (ObjectManagerNum == 1)
         {
-            SoulBox.GetComponent<BoxCtrl>().UnLock();
-        }
-        else
-        {
-            SoulBox.GetComponent<BoxCtrl>().Lock();
+            if (Heads.activeSelf && SpotLignts.activeSelf)
+            {
+                SoulBox.GetComponent<BoxCtrl>().UnLock();
+            }
+            else
+            {
+                SoulBox.GetComponent<BoxCtrl>().Lock();
+            }
         }
     }
 
@@ -66,14 +89,17 @@ public class ObjectManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (ObjectManagerNum == 1)
         {
-            if (other.gameObject.GetComponent<PlayerMoveController>().PlayerGrab())
+            if (other.gameObject.tag == "Player")
             {
-                SpotLignts.SetActive(!SpotLignts.activeSelf);
-            }
+                if (other.gameObject.GetComponent<PlayerMoveController>().PlayerGrab())
+                {
+                    SpotLignts.SetActive(!SpotLignts.activeSelf);
+                }
 
-            Switch.SetActive(true);
+                Switch.SetActive(true);
+            }
         }
     }
 }

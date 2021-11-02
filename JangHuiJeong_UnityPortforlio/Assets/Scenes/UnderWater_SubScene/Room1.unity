@@ -12733,6 +12733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb13a605d7de364aa9eabdff09a7c97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectManagerNum: 0
   SpotLignts: {fileID: 0}
   Heads: {fileID: 0}
   Switch: {fileID: 0}
@@ -13094,6 +13095,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 409546049217938182, guid: 1ee671ec419a71f44a5b54ee79dbcb1c, type: 3}
+      propertyPath: RoomNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 409546049217938182, guid: 1ee671ec419a71f44a5b54ee79dbcb1c, type: 3}
+      propertyPath: _SceneNumber
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 409546049217938183, guid: 1ee671ec419a71f44a5b54ee79dbcb1c, type: 3}
       propertyPath: m_Name
       value: GameManager

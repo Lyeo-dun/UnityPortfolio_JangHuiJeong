@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _SceneNumber = SceneManager.GetActiveScene().buildIndex;
+        if (_SceneNumber > 2)
+            _SceneNumber = 2;
 
         { // ** chap 1
             PortalCount = 0;

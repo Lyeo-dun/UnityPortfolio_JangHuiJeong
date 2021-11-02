@@ -38,17 +38,17 @@ public class PlayerMoveController : MonoBehaviour
         PressEKeyUI = GameObject.Find("PressEKeyUI");
         Rigid = GetComponent<Rigidbody>();
         BringGameObjectPosition = GameObject.Find("Player/Main Camera/BringObject");
+    }
 
-        if(GameManager.GetInstance().SceneNumber == 2 && !GameManager.GetInstance().isInRoom)
-            if(GameManager.GetInstance().PlayerSettingPos)
+    void Start()
+    {
+        if (GameManager.GetInstance().SceneNumber == 2 && !GameManager.GetInstance().isInRoom)
+            if (GameManager.GetInstance().PlayerSettingPos)
             {
                 transform.position = GameManager.GetInstance().PlayerPos;
                 transform.rotation = new Quaternion(0.0f, 180.0f, 0.0f, 0.0f);
             }
-    }
 
-    void Start()
-    {        
         MoveSpeed = 5.0f;
         RotateSpeed = 3.5f;
         //RotationPlayerValue = 0;
