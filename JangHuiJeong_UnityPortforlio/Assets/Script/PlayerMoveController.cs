@@ -73,7 +73,7 @@ public class PlayerMoveController : MonoBehaviour
             RaycastHit hit;
             if (HoldItem == null)
             {
-                int _LayerMask = 1 << LayerMask.NameToLayer("Interaction");
+                int _LayerMask = 1 << LayerMask.NameToLayer("Interaction") | 1 << LayerMask.NameToLayer("Ball");
                 if (PressEKeyUI != null)
                 {
                     PressEKeyUI.SetActive(false); // ** UI 띄우기

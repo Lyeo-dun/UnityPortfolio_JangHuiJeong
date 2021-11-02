@@ -64,6 +64,11 @@ public class ObjectManager : MonoBehaviour
             Heads.SetActive(false);
             Switch.SetActive(false);
         }
+
+        if(ObjectManagerNum == 2)
+        {
+
+        }
     }
 
     private void Update()
