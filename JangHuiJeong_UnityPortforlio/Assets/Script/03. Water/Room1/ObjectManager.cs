@@ -6,17 +6,20 @@ public class ObjectManager : MonoBehaviour
 {
     [SerializeField] private int ObjectManagerNum;
 
+    private int SoulNumber;
+    [SerializeField] private GameObject SoulBox;
+    [SerializeField] private List<GameObject> Souls;
+    [SerializeField] private GameObject SoulPos;
+
+    [SerializeField] private GameObject RoomDoor;
+
+    [Header("Object1")]
     [SerializeField] private GameObject SpotLignts;
     [SerializeField] private GameObject Heads;
     [SerializeField] private GameObject Switch;
 
-    [SerializeField] private GameObject SoulBox;
-    [SerializeField] private List<GameObject> Souls;
-    [SerializeField] private GameObject SoulPos;
-    private int SoulNumber;
-
-    [SerializeField] private GameObject RoomDoor;
-
+    [Header("Object2")]
+    [SerializeField] private List<GameObject> Balls;
     private void Awake()
     {
         {
@@ -43,6 +46,18 @@ public class ObjectManager : MonoBehaviour
             Heads = GameObject.Find("Object1/Heads");
             Switch = GameObject.Find("Object1/Switch");
         }
+        if(ObjectManagerNum == 2)
+        {
+            BringItem[] Brings = transform.GetComponentsInChildren<BringItem>();
+
+            for(int i = 0; i < Brings.Length; i++)
+            {
+                if(Brings[i].gameObject.layer == LayerMask.NameToLayer("Ball"))
+                {
+                    Balls.Add(Brings[i].gameObject);
+                }
+            }
+        }
     }
 
     void Start()
@@ -67,7 +82,21 @@ public class ObjectManager : MonoBehaviour
 
         if(ObjectManagerNum == 2)
         {
+            foreach(var Ball in Balls)
+            {
+                Rigidbody Rigid = Ball.GetComponent<Rigidbody>();
+                float RandomX, RandomY, RandomZ;
+                if (Rigid != null)
+                {
+                    RandomX = Random.Range(-1f, 1f);
+                    RandomY = Random.Range(-1f, 1f);
+                    RandomZ = Random.Range(-1f, 1f);
 
+                    Vector3 dir = new Vector3(RandomX, RandomY, RandomZ);
+
+                    Rigid.AddForce(dir * 100f);
+                }
+            }
         }
     }
 

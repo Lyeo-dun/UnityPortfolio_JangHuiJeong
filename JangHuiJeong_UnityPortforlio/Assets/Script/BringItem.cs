@@ -6,6 +6,13 @@ public class BringItem : MonoBehaviour
 {
     [SerializeField] private bool isHold;
 
+    public bool Hold
+    {
+        get
+        {
+            return isHold;
+        }
+    }
     private void Start()
     {
         isHold = false;
