@@ -7,6 +7,20 @@ public class BallCtrl : MonoBehaviour
     private GameObject ObjectMn;
     private Rigidbody Rigid;
 
+    private bool isTrue;
+
+    public bool TrueBall
+    {
+        get
+        {
+            return isTrue;
+        }
+        set
+        {
+            isTrue = false;
+        }
+    }
+
     private void Awake()
     {
         ObjectMn = transform.parent.gameObject;
@@ -24,7 +38,7 @@ public class BallCtrl : MonoBehaviour
         }
 
         // ** 플레이어가 잡지 않는다면 공이 계속 움직일 수 있도록 한다.
-        if(!GetComponent<BringItem>().Hold && GetComponent<Rigidbody>().velocity.magnitude < 1.0f) 
+        if(!GetComponent<BringItem>().Hold && Rigid.velocity.magnitude < 1.0f) 
         {
             float RandomX, RandomY, RandomZ;
 
@@ -34,9 +48,10 @@ public class BallCtrl : MonoBehaviour
 
             Vector3 dir = new Vector3(RandomX, RandomY, RandomZ);
 
-            GetComponent<Rigidbody>().AddForce(dir * 100f);
+            Rigid.AddForce(dir * 100f);
         }
 
-        GetComponent<Renderer>().material.color += Color.yellow * 0.1f * Time.deltaTime;
+
+        //GetComponent<Renderer>().material.color += Color.yellow * 0.1f;
     }
 }

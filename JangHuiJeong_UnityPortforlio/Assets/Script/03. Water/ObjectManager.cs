@@ -20,6 +20,8 @@ public class ObjectManager : MonoBehaviour
 
     [Header("Object2")]
     [SerializeField] private List<GameObject> Balls;
+    [SerializeField] private GameObject BringBall;
+
     private void Awake()
     {
         {
@@ -48,14 +50,37 @@ public class ObjectManager : MonoBehaviour
         }
         if(ObjectManagerNum == 2)
         {
-            BringItem[] Brings = transform.GetComponentsInChildren<BringItem>();
-
-            for(int i = 0; i < Brings.Length; i++)
             {
-                if(Brings[i].gameObject.layer == LayerMask.NameToLayer("Ball"))
+                BallCtrl[] _Balls = transform.GetComponentsInChildren<BallCtrl>();
+
+                for(int i = 0; i < _Balls.Length; i++)
                 {
-                    Balls.Add(Brings[i].gameObject);
+                    if(_Balls[i].gameObject.layer == LayerMask.NameToLayer("Ball"))
+                    {
+                        Balls.Add(_Balls[i].gameObject);
+                    }
                 }
+            }
+
+            BringBall = new GameObject("BringBalls");
+            BringBall.transform.parent = transform;
+
+            {
+                List<int> _BringBallIndex = new List<int>();
+
+                for (int i = 0; i < 3;)
+                {
+                    int BringIndex = Random.Range(0, Balls.Count);
+
+                    if (!_BringBallIndex.Contains(BringIndex))
+                    {
+                        _BringBallIndex.Add(BringIndex);
+                        Balls[i].transform.parent = BringBall.transform;
+                        i++;
+                    }
+                }
+
+
             }
         }
     }
@@ -135,5 +160,10 @@ public class ObjectManager : MonoBehaviour
                 Switch.SetActive(true);
             }
         }
+    }
+
+    public void AddBringBallYellow()
+    {
+
     }
 }
