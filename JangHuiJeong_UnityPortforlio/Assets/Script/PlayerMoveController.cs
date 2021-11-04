@@ -125,13 +125,21 @@ public class PlayerMoveController : MonoBehaviour
                                 }
 
                             }
+                            if(hit.transform.tag == "Item")
+                            {
+                                if(hit.transform.gameObject.GetComponent<BringItem>())
+                                {
+                                    HoldItem = hit.transform.gameObject;
+                                    HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
+                                }
 
+                                hit.transform.gameObject.GetComponent<ItemControler>().EventItem();
+                            }
                             if(hit.transform.tag == "Bring")
                             {
                                 HoldItem = hit.transform.gameObject;
                                 HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
                             }
-
                             if(hit.transform.tag == "Switch")
                             {
                                 hit.transform.gameObject.GetComponent<SwitchCtrl>().ViewEyes();

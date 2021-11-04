@@ -20,7 +20,7 @@ public class ObjectManager : MonoBehaviour
 
     [Header("Object2")]
     [SerializeField] private List<GameObject> Balls;
-    [SerializeField] private GameObject BringBall;
+    [SerializeField] private List<GameObject> BringBalls;
 
     private void Awake()
     {
@@ -62,12 +62,11 @@ public class ObjectManager : MonoBehaviour
                 }
             }
 
-            BringBall = new GameObject("BringBalls");
+            GameObject BringBall = new GameObject("BringBalls");
             BringBall.transform.parent = transform;
 
             {
                 List<int> _BringBallIndex = new List<int>();
-
                 for (int i = 0; i < 3;)
                 {
                     int BringIndex = Random.Range(0, Balls.Count);
@@ -75,12 +74,25 @@ public class ObjectManager : MonoBehaviour
                     if (!_BringBallIndex.Contains(BringIndex))
                     {
                         _BringBallIndex.Add(BringIndex);
-                        Balls[i].transform.parent = BringBall.transform;
                         i++;
                     }
                 }
 
-
+                for(int i = 0; i < Balls.Count; i++)
+                {
+                    if(_BringBallIndex.Contains(i))
+                    {
+                        Balls[i].transform.parent = BringBall.transform;
+                        Balls[i].AddComponent<BringItem>();
+                        Balls[i].GetComponent<BallCtrl>().TrueBall = true;
+                        BringBalls.Add(Balls[i]);
+                    }
+                    else
+                    {
+                        Balls[i].AddComponent<TestDissolveItem>();
+                        Balls[i].GetComponent<BallCtrl>().TrueBall = false;
+                    }
+                }
             }
         }
     }
@@ -162,8 +174,11 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
-    public void AddBringBallYellow()
+    public void AddColorBringBall()
     {
-
+        foreach(var Bring in BringBalls)
+        {
+            Bring.GetComponent<BallCtrl>().AddColorYellow();
+        }
     }
 }

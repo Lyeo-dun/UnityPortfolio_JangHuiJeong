@@ -1,5 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class EventAlarmControl : ClockControl
 {
+    public override bool LinkTable
+    {
+        get
+        {
+            return _LinkTable;
+        }
+        set
+        {            
+            _LinkTable = value;
+        }
+    }
     protected override void Awake()
     {
         base.Awake();

@@ -26,11 +26,12 @@ public class DrawerControl : MonoBehaviour
 
                 if (InDrawerObjects[i].GetComponent<EventAlarmControl>())
                 {
-                    InDrawerObjects[i].GetComponent<EventAlarmControl>().LinkTable = true;
+                    Debug.Log(InDrawerObjects[i].GetComponent<EventAlarmControl>().LinkTable);
+                    //InDrawerObjects[i].GetComponent<EventAlarmControl>().LinkTable = true;
                 }
                 if (InDrawerObjects[i].GetComponent<LastAlarmControl>())
                 {
-                    InDrawerObjects[i].GetComponent<LastAlarmControl>().LinkTable = true;
+                    //InDrawerObjects[i].GetComponent<LastAlarmControl>().LinkTable = true;
                     InDrawerObjects[i].GetComponent<Rigidbody>().isKinematic = true; //서랍에 있을 때는 물리엔진을 사용하지 않는다.
                 }
             }

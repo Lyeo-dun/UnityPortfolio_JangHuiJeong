@@ -16,6 +16,7 @@ TagManager:
   - Bring
   - Switch
   - Box
+  - Item
   layers:
   - Default
   - TransparentFX

@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallCtrl : MonoBehaviour
+public class BallCtrl : ItemControler
 {
     private GameObject ObjectMn;
     private Rigidbody Rigid;
 
-    private bool isTrue;
+    private GameObject ParentsObject;
+    [SerializeField] private bool isTrue;
 
     public bool TrueBall
     {
@@ -17,7 +18,7 @@ public class BallCtrl : MonoBehaviour
         }
         set
         {
-            isTrue = false;
+           isTrue = value;
         }
     }
 
@@ -27,18 +28,44 @@ public class BallCtrl : MonoBehaviour
     }
     void Start()
     {
+        if(TrueBall)
+            ParentsObject = GameObject.Find("BringBalls");
         Rigid = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    public override void EventItem()
     {
-        if(transform.parent == null)
+        if(!TrueBall)
         {
-            transform.parent = ObjectMn.transform;
+            GetComponent<TestDissolveItem>().ChangeDissolveState();
+            ObjectMn.GetComponent<ObjectManager>().AddColorBringBall();
         }
+    }
 
-        // ** 플레이어가 잡지 않는다면 공이 계속 움직일 수 있도록 한다.
-        if(!GetComponent<BringItem>().Hold && Rigid.velocity.magnitude < 1.0f) 
+    void Update()
+    {        
+        if(TrueBall)
+            if(transform.parent == null)
+            {
+                if (transform.parent == null)
+                    transform.parent = ParentsObject.transform;
+            }
+
+        BallExercise();
+    }
+
+    public void AddColorYellow()
+    {
+        GetComponent<Renderer>().material.color += Color.yellow * 0.1f;
+    }
+
+    void BallExercise()
+    {
+        if (TrueBall)
+            if (GetComponent<BringItem>().Hold) // ** 잡을 수 있는 공을 잡은 상태라면 공을 움직일 필요가 없으므로 함수를 빠져나간다
+                return;
+
+        if (Rigid.velocity.magnitude < 1.0f)
         {
             float RandomX, RandomY, RandomZ;
 
@@ -50,8 +77,5 @@ public class BallCtrl : MonoBehaviour
 
             Rigid.AddForce(dir * 100f);
         }
-
-
-        //GetComponent<Renderer>().material.color += Color.yellow * 0.1f;
     }
 }

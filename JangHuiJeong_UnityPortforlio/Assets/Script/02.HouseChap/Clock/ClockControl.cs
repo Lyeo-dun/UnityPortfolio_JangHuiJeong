@@ -8,7 +8,7 @@ public class ClockControl : MonoBehaviour
     protected AudioSource AlarmSound;
 
     [SerializeField] protected bool _LinkTable;
-    public bool LinkTable
+    public virtual bool LinkTable
     {
         get
         {
