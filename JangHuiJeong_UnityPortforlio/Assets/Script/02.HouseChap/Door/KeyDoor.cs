@@ -46,7 +46,7 @@ public class KeyDoor : Door
     {
         if (isKey)
         {
-            DoorAniCtrl();
+            base.DoorCtl();
         }
         else
         {

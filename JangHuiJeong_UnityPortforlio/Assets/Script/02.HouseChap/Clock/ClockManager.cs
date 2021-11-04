@@ -33,6 +33,16 @@ public class ClockManager : MonoBehaviour
         }
 
         {
+            ClockControl[] ClocksControler = transform.GetComponentsInChildren<ClockControl>();
+            Clocks = new GameObject[ClocksControler.Length];
+
+            for(int i = 0; i < ClocksControler.Length; i++)
+            {
+                Clocks[i] = ClocksControler[i].gameObject;
+            }
+        }
+
+        {
             List<int> ViewClockNum = new List<int>();
 
             for (int i = 0; i < 5;)
@@ -74,7 +84,7 @@ public class ClockManager : MonoBehaviour
                 Clock.AddComponent<EventAlarmControl>();
             }
         }
-
+        
         Destroy(LastAlarm.GetComponent<ClockControl>());
         LastAlarm.AddComponent<LastAlarmControl>();
         LastAlarm.transform.parent = transform.GetChild(2);
@@ -95,8 +105,9 @@ public class ClockManager : MonoBehaviour
     void Start()
     {
         AlarmClockIndex = 0;
-        ClockCountUI.SetActive(false);
+        ClockCountUI.SetActive(false);        
     }
+
     public static ClockManager GetInstance()
     {
         return _Instance;

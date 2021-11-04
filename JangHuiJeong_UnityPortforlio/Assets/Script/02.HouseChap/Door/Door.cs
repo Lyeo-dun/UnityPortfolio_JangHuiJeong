@@ -21,7 +21,7 @@ public class Door : MonoBehaviour
     }
 
     public virtual void DoorCtl()
-    {
+    {        
         DoorAniCtrl();
     }
 

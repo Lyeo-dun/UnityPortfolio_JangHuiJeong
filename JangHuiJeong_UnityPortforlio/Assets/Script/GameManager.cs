@@ -51,11 +51,11 @@ public class GameManager : MonoBehaviour
             if(this != _Instance)
                 Destroy(gameObject);
         }
+        _SceneNumber = SceneManager.GetActiveScene().buildIndex;
     }
 
     void Start()
     {
-        _SceneNumber = SceneManager.GetActiveScene().buildIndex;
         if (_SceneNumber > 2)
             _SceneNumber = 2;
 
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
             _GoThirdStage = false;
         }
 
-        {
+        { // ** chap 3
             RoomNumber = 0; // ** 0은 현재 룸을 한 번도 가지 않는 상태를 의미한다.
             PlayerRepawnPos = new Vector3(0.0f, 1.0f, 20.0f);
             WallsEvent = false;

@@ -33,7 +33,7 @@ public class LastAlarmControl : ClockControl
     {
         isHold = true;
 
-        LinkTable = false;
+        _LinkTable = false;
         GetComponent<Rigidbody>().isKinematic = true;
         transform.position = ParentsObject.transform.position;
         transform.parent = ParentsObject.transform;

@@ -115,7 +115,7 @@ public class PlayerMoveController : MonoBehaviour
                             {
                                 hit.transform.gameObject.GetComponent<Door>().DoorCtl();
                             }
-                            if(hit.transform.tag == "Key")
+                            if (hit.transform.tag == "Key")
                             {
                                 if(GameManager.GetInstance().SceneNumber == 1)
                                     hit.transform.parent.gameObject.GetComponent<KeyControl>().KeyEvent();

@@ -16,22 +16,25 @@ public class DrawerControl : MonoBehaviour
     }
     private void Start()
     {
+
         if (InDrawerObjects.Count > 0)
         {
-            for(int i = 0; i < InDrawerObjects.Count; i++)
+            for (int i = 0; i < InDrawerObjects.Count; i++)
             {
                 // ** 이때 편차는 현재 오브젝트의 위치 - 서랍의 위치로 계산한다
                 Offset[i] = InDrawerObjects[i].transform.position - Drawer.transform.position;
+
                 InDrawerObjects[i].GetComponent<ClockControl>().LinkTable = true;
 
-                if (InDrawerObjects[i].GetComponent<EventAlarmControl>())
+                // ** 바깥에서 부모 클래스를 통해 Setter 접근 시 자식 클래스의 값은 변화하지 않으므로 자식 클래스일 경우 직접 변경
+                if (InDrawerObjects[i].GetComponent<EventAlarmControl>()) 
                 {
-                    Debug.Log(InDrawerObjects[i].GetComponent<EventAlarmControl>().LinkTable);
-                    //InDrawerObjects[i].GetComponent<EventAlarmControl>().LinkTable = true;
+                    InDrawerObjects[i].GetComponent<EventAlarmControl>().LinkTable = true;
                 }
+
                 if (InDrawerObjects[i].GetComponent<LastAlarmControl>())
                 {
-                    //InDrawerObjects[i].GetComponent<LastAlarmControl>().LinkTable = true;
+                    InDrawerObjects[i].GetComponent<LastAlarmControl>().LinkTable = true;
                     InDrawerObjects[i].GetComponent<Rigidbody>().isKinematic = true; //서랍에 있을 때는 물리엔진을 사용하지 않는다.
                 }
             }
@@ -48,10 +51,11 @@ public class DrawerControl : MonoBehaviour
                 {
                     InDrawerObjects[i].transform.position = Drawer.transform.position + Offset[i];
                 }
-                //if(!InDrawerObjects[i].GetComponent<ClockControl>().LinkTable)
-                //{
-                //    InDrawerObjects.RemoveAt(i);
-                //}
+
+                if (!InDrawerObjects[i].GetComponent<ClockControl>().LinkTable)
+                {
+                    InDrawerObjects.RemoveAt(i);
+                }
             }
         }
     }

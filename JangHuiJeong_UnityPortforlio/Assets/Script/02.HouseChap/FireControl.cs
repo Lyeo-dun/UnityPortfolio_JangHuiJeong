@@ -11,7 +11,7 @@ public class FireControl : MonoBehaviour
     }
 
     [SerializeField] private GameObject[] Fires;
-    private GameObject Key;
+    [SerializeField] private GameObject Key;
     private bool isFireOff;
     [SerializeField] private float OffValue;
 

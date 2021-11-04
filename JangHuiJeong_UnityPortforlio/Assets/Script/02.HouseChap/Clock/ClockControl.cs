@@ -8,16 +8,10 @@ public class ClockControl : MonoBehaviour
     protected AudioSource AlarmSound;
 
     [SerializeField] protected bool _LinkTable;
-    public virtual bool LinkTable
+    public bool LinkTable
     {
-        get
-        {
-            return _LinkTable;
-        }
-        set
-        {
-            _LinkTable = value;
-        }
+        get { return _LinkTable; }
+        set { _LinkTable = value; }
     }
 
     protected virtual void Awake()
@@ -43,4 +37,5 @@ public class ClockControl : MonoBehaviour
     {
         ClockDissolve.ResetRenderer();
     }
+
 }
