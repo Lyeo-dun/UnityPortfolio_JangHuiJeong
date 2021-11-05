@@ -17,6 +17,7 @@ TagManager:
   - Switch
   - Box
   - Item
+  - CountHole
   layers:
   - Default
   - TransparentFX

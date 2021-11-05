@@ -21,6 +21,8 @@ public class ObjectManager : MonoBehaviour
     [Header("Object2")]
     [SerializeField] private List<GameObject> Balls;
     [SerializeField] private List<GameObject> BringBalls;
+    [SerializeField] private GameObject EventFloor;
+    [SerializeField] private bool BoxLock;
 
     private void Awake()
     {
@@ -134,6 +136,7 @@ public class ObjectManager : MonoBehaviour
                     Rigid.AddForce(dir * 100f);
                 }
             }
+            BoxLock = true;
         }
     }
 
@@ -180,5 +183,9 @@ public class ObjectManager : MonoBehaviour
         {
             Bring.GetComponent<BallCtrl>().AddColorYellow();
         }
+    }
+    public void FloorEventStart()
+    {
+
     }
 }

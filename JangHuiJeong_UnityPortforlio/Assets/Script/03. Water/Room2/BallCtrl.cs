@@ -5,6 +5,10 @@ using UnityEngine;
 public class BallCtrl : ItemControler
 {
     private GameObject ObjectMn;
+
+    private bool isDivision;
+
+    [SerializeField] private bool isMoving;
     private Rigidbody Rigid;
 
     private GameObject ParentsObject;
@@ -31,14 +35,22 @@ public class BallCtrl : ItemControler
         if(TrueBall)
             ParentsObject = GameObject.Find("BringBalls");
         Rigid = GetComponent<Rigidbody>();
+
+        isDivision = false;
+
+        isMoving = true;
     }
 
     public override void EventItem()
     {
         if(!TrueBall)
         {
-            GetComponent<TestDissolveItem>().ChangeDissolveState();
-            ObjectMn.GetComponent<ObjectManager>().AddColorBringBall();
+            if(!isDivision)
+            {
+                GetComponent<TestDissolveItem>().ChangeDissolveState();
+                ObjectMn.GetComponent<ObjectManager>().AddColorBringBall();
+                isDivision = true;
+            }
         }
     }
 
@@ -47,11 +59,15 @@ public class BallCtrl : ItemControler
         if(TrueBall)
             if(transform.parent == null)
             {
-                if (transform.parent == null)
-                    transform.parent = ParentsObject.transform;
+                transform.parent = ParentsObject.transform;
+                isMoving = true;
             }
 
-        BallExercise();
+    }
+    private void FixedUpdate()
+    {
+        if(isMoving)
+            BallExercise();
     }
 
     public void AddColorYellow()
@@ -62,8 +78,11 @@ public class BallCtrl : ItemControler
     void BallExercise()
     {
         if (TrueBall)
-            if (GetComponent<BringItem>().Hold) // ** 잡을 수 있는 공을 잡은 상태라면 공을 움직일 필요가 없으므로 함수를 빠져나간다
+            if (GetComponent<BringItem>().Hold)
+            {
+                isMoving = false;
                 return;
+            }// ** 잡을 수 있는 공을 잡은 상태라면 공을 움직일 필요가 없으므로 함수를 빠져나간다
 
         if (Rigid.velocity.magnitude < 1.0f)
         {
@@ -76,6 +95,24 @@ public class BallCtrl : ItemControler
             Vector3 dir = new Vector3(RandomX, RandomY, RandomZ);
 
             Rigid.AddForce(dir * 100f);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "CountHole")
+        {
+            if(TrueBall)
+            {
+                GetComponent<BringItem>().PutItem();
+
+                isMoving = false;
+                Rigid.isKinematic = true;
+
+                other.GetComponent<BallsHoleControl>().AddCount();
+
+                gameObject.SetActive(false);
+            }
         }
     }
 }
