@@ -22,7 +22,6 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private List<GameObject> Balls;
     [SerializeField] private List<GameObject> BringBalls;
     [SerializeField] private GameObject EventFloor;
-    [SerializeField] private bool BoxLock;
 
     private void Awake()
     {
@@ -52,6 +51,7 @@ public class ObjectManager : MonoBehaviour
         }
         if(ObjectManagerNum == 2)
         {
+            EventFloor = GameObject.Find("Object2/EventFloor");
             {
                 BallCtrl[] _Balls = transform.GetComponentsInChildren<BallCtrl>();
 
@@ -101,9 +101,9 @@ public class ObjectManager : MonoBehaviour
 
     void Start()
     {
+        GameManager.GetInstance().PlayerSettingPos = true;
         GameManager.GetInstance().isInRoom = true;
         GameManager.GetInstance().RoomNum = ObjectManagerNum;
-
         {
             SoulNumber = Random.Range(0, Souls.Count) + 1;
             GameManager.GetInstance().SettingPassword(SoulNumber);
@@ -136,7 +136,6 @@ public class ObjectManager : MonoBehaviour
                     Rigid.AddForce(dir * 100f);
                 }
             }
-            BoxLock = true;
         }
     }
 
@@ -186,6 +185,7 @@ public class ObjectManager : MonoBehaviour
     }
     public void FloorEventStart()
     {
-
+        SoulBox.GetComponent<BoxCtrl>().UnLock();
+        EventFloor.GetComponent<EventFloor>().StartCoroutine("FloorEventFunction");
     }
 }

@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class EnterRoomCtrl : MonoBehaviour
 {
+    private GameObject Door;
+
+    private void Awake()
+    {
+        Door = transform.parent.gameObject;
+
+    }
+
+    private void Update()
+    {
+        GetComponent<Collider>().enabled = Door.GetComponent<Door>().GetDoorOpen();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

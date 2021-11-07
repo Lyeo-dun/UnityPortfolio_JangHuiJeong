@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 
         { // ** chap 3
             RoomNumber = 0; // ** 0은 현재 룸을 한 번도 가지 않는 상태를 의미한다.
-            PlayerRepawnPos = new Vector3(0.0f, 1.0f, 20.0f);
+            PlayerRepawnPos = new Vector3(0.0f, 1.7f, 20.0f);
             WallsEvent = false;
         }
     }

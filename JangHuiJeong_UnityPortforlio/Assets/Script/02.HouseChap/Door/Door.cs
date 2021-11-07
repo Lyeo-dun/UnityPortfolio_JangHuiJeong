@@ -34,6 +34,11 @@ public class Door : MonoBehaviour
             Colliders[i].enabled = !Colliders[i].enabled;
         }
     }
+
+    public bool GetDoorOpen()
+    {
+        return isOpen;
+    }
     protected virtual void FixedUpdate()
     {
     }

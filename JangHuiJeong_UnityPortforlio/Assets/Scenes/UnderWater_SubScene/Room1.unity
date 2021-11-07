@@ -12710,13 +12710,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectManagerNum: 0
-  SpotLignts: {fileID: 0}
-  Heads: {fileID: 0}
-  Switch: {fileID: 0}
   SoulBox: {fileID: 0}
   Souls: []
   SoulPos: {fileID: 0}
   RoomDoor: {fileID: 0}
+  SpotLignts: {fileID: 0}
+  Heads: {fileID: 0}
+  Switch: {fileID: 0}
+  Balls: []
+  BringBalls: []
+  EventFloor: {fileID: 0}
 --- !u!1001 &820789345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26847,7 +26850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 426182765812748531, guid: 0582c1f07265d3f48ab40c3e98beb6ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 426182765812748531, guid: 0582c1f07265d3f48ab40c3e98beb6ea, type: 3}
       propertyPath: m_LocalPosition.z
