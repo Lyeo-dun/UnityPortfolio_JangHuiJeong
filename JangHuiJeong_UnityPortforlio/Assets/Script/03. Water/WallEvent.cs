@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class WallEvent : MonoBehaviour
 {
-    [SerializeField] private GameObject[] Walls;
+    [SerializeField] private List<GameObject> Walls;
     [SerializeField] private AudioSource WallsDropSound;
 
     private void Awake()
     {
         {
             Transform[] Trans = transform.GetComponentsInChildren<Transform>();
-            Walls = new GameObject[Trans.Length - 1];
 
+            int Count = 0;
             for (int i = 1; i < Trans.Length; i++)
             {
-                Walls[i - 1] = Trans[i].gameObject;
+                if(Trans[i].gameObject.tag == "Wall")
+                {
+                    Walls.Add(Trans[i].gameObject);                    
+                }
             }
         }
     }

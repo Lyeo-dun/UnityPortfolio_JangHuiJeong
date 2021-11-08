@@ -21,6 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/UnderWater_SubScene/Room2.unity
     guid: 23c15b433b2477e47aa7beb9170779f0
   - enabled: 1
-    path: Assets/Scenes/UnderWater_SubScene/Room3.unity
-    guid: 992cab254fee7cc49b9112ef8374a320
+    path: Assets/Scenes/Tunnel2.unity
+    guid: 7cc24d1a890e62744b709268f4c6e069
   m_configObjects: {}

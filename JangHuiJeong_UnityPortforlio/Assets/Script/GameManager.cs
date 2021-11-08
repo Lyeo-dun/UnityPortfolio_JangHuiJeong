@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private bool _isOnUI;
+
     [Header("Chapter 1")]
     [SerializeField] private int PortalCount;
     public bool ViewText;
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int RoomNumber;
     [SerializeField] private List<int> LastPassWord;
     [SerializeField] private bool _isInRoom;
+    [SerializeField] private int _LastRoomNumber;
+    [SerializeField] private int NextSceneIndex;
     private Vector3 PlayerRepawnPos;
     private bool WallsEvent;
 
@@ -56,6 +60,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+
         if (_SceneNumber > 2)
             _SceneNumber = 2;
 
@@ -75,6 +80,9 @@ public class GameManager : MonoBehaviour
             RoomNumber = 0; // ** 0은 현재 룸을 한 번도 가지 않는 상태를 의미한다.
             PlayerRepawnPos = new Vector3(0.0f, 1.7f, 20.0f);
             WallsEvent = false;
+
+            NextSceneIndex = 5;
+            _LastRoomNumber = (NextSceneIndex - 2) + 1;
         }
     }
 
@@ -84,6 +92,19 @@ public class GameManager : MonoBehaviour
     {
         _SceneNumber += _Index;
         SceneManager.LoadScene(_SceneNumber);
+    }
+
+
+    public bool OnUI
+    {
+        set
+        {
+            _isOnUI = value;
+        }
+        get
+        {
+            return _isOnUI;
+        }
     }
 
     // ** chap 1
@@ -186,6 +207,13 @@ public class GameManager : MonoBehaviour
         get
         {
             return WallsEvent;
+        }
+    }
+    public int LastRoomNum
+    {
+        get
+        {
+            return _LastRoomNumber;
         }
     }
     public void InRoom()

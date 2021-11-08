@@ -105,10 +105,10 @@ public class ObjectManager : MonoBehaviour
         GameManager.GetInstance().isInRoom = true;
         GameManager.GetInstance().RoomNum = ObjectManagerNum;
         {
-            SoulNumber = Random.Range(0, Souls.Count) + 1;
-            GameManager.GetInstance().SettingPassword(SoulNumber);
+            SoulNumber = Random.Range(0, Souls.Count);
+            GameManager.GetInstance().SettingPassword(SoulNumber + 1);
 
-            GameObject Soul = Instantiate<GameObject>(Souls[SoulNumber - 1], SoulPos.transform);
+            GameObject Soul = Instantiate<GameObject>(Souls[SoulNumber], SoulPos.transform);
             Soul.GetComponent<KeyControl>().LinkDoor = RoomDoor;
         }
 

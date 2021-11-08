@@ -68,162 +68,167 @@ public class PlayerMoveController : MonoBehaviour
     void Update()
     {
         // ** 현재 인터렉션 할 수 있는지 UI 띄움
+        //if(!GameManager.GetInstance().OnUI)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (HoldItem == null)
             {
-                int _LayerMask = 1 << LayerMask.NameToLayer("Interaction") | 1 << LayerMask.NameToLayer("Ball");
-                if (PressEKeyUI != null)
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (HoldItem == null)
                 {
-                    PressEKeyUI.SetActive(false); // ** UI 띄우기
-                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, _LayerMask))
+                    int _LayerMask = 1 << LayerMask.NameToLayer("Interaction") | 1 << LayerMask.NameToLayer("Ball");
+                    if (PressEKeyUI != null)
                     {
-                        if(Vector3.Distance(hit.point, transform.position) <= InterectionDistance)
+                        PressEKeyUI.SetActive(false); // ** UI 띄우기
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _LayerMask))
                         {
-                            PressEKeyUI.SetActive(true);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                PressEKeyUI.SetActive(true);
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if(HoldItem == null)
-                {
-
-                    if(Physics.Raycast(ray, out hit, Mathf.Infinity))
-                    {
-                        if(Vector3.Distance(transform.position ,hit.point) <= InterectionDistance)
-                        {
-                            if(hit.transform.tag == "Clock")
+                            if(Vector3.Distance(hit.point, transform.position) <= InterectionDistance)
                             {
-                                if(!GameManager.GetInstance().ClockEventEnd)
-                                    hit.transform.gameObject.GetComponent<ClockControl>().EventClock();
-
-                                else
-                                {
-                                    HoldItem = hit.transform.gameObject;
-                                    HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock(BringGameObjectPosition);
-                                }
-                            }
-                            if(hit.transform.tag == "Door") 
-                            {
-                                hit.transform.gameObject.GetComponent<Door>().DoorCtl();
-                            }
-                            if (hit.transform.tag == "Key")
-                            {
-                                if(GameManager.GetInstance().SceneNumber == 1)
-                                    hit.transform.parent.gameObject.GetComponent<KeyControl>().KeyEvent();
-                                else
-                                {
-                                    hit.transform.gameObject.GetComponent<KeyControl>().KeyEvent();
-                                }
-
-                            }
-                            if(hit.transform.tag == "Item")
-                            {
-                                if(hit.transform.gameObject.GetComponent<BringItem>())
-                                {
-                                    HoldItem = hit.transform.gameObject;
-                                    HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
-                                }
-
-                                hit.transform.gameObject.GetComponent<ItemControler>().EventItem();
-                            }
-                            if(hit.transform.tag == "Bring")
-                            {
-                                HoldItem = hit.transform.gameObject;
-                                HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
-                            }
-                            if(hit.transform.tag == "Switch")
-                            {
-                                hit.transform.gameObject.GetComponent<SwitchCtrl>().ViewEyes();
+                                PressEKeyUI.SetActive(true);
                             }
                         }
                     }
                 }
                 else
                 {
-                    if(HoldItem.gameObject.GetComponent<LastAlarmControl>())
-                      HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock();
-
-                    if (HoldItem.gameObject.GetComponent<BringItem>())
-                      HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
-                    
-                      HoldItem = null;
+                    PressEKeyUI.SetActive(true);
                 }
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if(HoldItem == null)
+                    {
+
+                        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                        {
+                            if(Vector3.Distance(transform.position ,hit.point) <= InterectionDistance)
+                            {
+                                if(hit.transform.tag == "Clock")
+                                {
+                                    if(!GameManager.GetInstance().ClockEventEnd)
+                                        hit.transform.gameObject.GetComponent<ClockControl>().EventClock();
+
+                                    else
+                                    {
+                                        HoldItem = hit.transform.gameObject;
+                                        HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock(BringGameObjectPosition);
+                                    }
+                                }
+                                if(hit.transform.tag == "Door") 
+                                {
+                                    hit.transform.gameObject.GetComponent<Door>().DoorCtl();
+                                }
+                                if (hit.transform.tag == "Key")
+                                {
+                                    if(GameManager.GetInstance().SceneNumber == 1)
+                                        hit.transform.parent.gameObject.GetComponent<KeyControl>().KeyEvent();
+                                    else
+                                    {
+                                        hit.transform.gameObject.GetComponent<KeyControl>().KeyEvent();
+                                    }
+
+                                }
+                                if(hit.transform.tag == "Item")
+                                {
+                                    if(hit.transform.gameObject.GetComponent<BringItem>())
+                                    {
+                                        HoldItem = hit.transform.gameObject;
+                                        HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
+                                    }
+
+                                    hit.transform.gameObject.GetComponent<ItemControler>().EventItem();
+                                }
+                                if(hit.transform.tag == "Bring")
+                                {
+                                    HoldItem = hit.transform.gameObject;
+                                    HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
+                                }
+                                if(hit.transform.tag == "Switch")
+                                {
+                                    hit.transform.gameObject.GetComponent<SwitchCtrl>().ViewEyes();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(HoldItem.gameObject.GetComponent<LastAlarmControl>())
+                          HoldItem.gameObject.GetComponent<LastAlarmControl>().EventClock();
+
+                        if (HoldItem.gameObject.GetComponent<BringItem>())
+                          HoldItem.gameObject.GetComponent<BringItem>().EventItem(BringGameObjectPosition);
+                        
+                          HoldItem = null;
+                    }
+                }
+
             }
 
-        }
+            if(BringGameObjectPosition.transform.childCount <= 0)
+            {
+                HoldItem = null; // ** 물건을 들고있어야 할 위치 게임 오브젝트에 자식 오브젝트가 없다면 들고 있는 아이템은 없으므로 null로 변경한다 
+            }
 
-        if(BringGameObjectPosition.transform.childCount <= 0)
-        {
-            HoldItem = null; // ** 물건을 들고있어야 할 위치 게임 오브젝트에 자식 오브젝트가 없다면 들고 있는 아이템은 없으므로 null로 변경한다 
-        }
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            if(JumpCount == 0)
-                Jumping = true;
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                if(JumpCount == 0)
+                    Jumping = true;
+            }
         }
     }
     private void FixedUpdate()
     {
-        // ** 플레이어 움직임
-        float Hor = Input.GetAxisRaw("Horizontal");
-        float Ver = Input.GetAxisRaw("Vertical");
-
-        // ** Collider나 NavMesh로 제어하면 벽에 부딪힌 후 벽 쪽으로 이동하려 할 시 캐릭터가 덜덜 떨리는 현상이 있음
-        // ** 따라서 가려는 방향에 벽이 있다면 일정 거리를 두게 만듦
+        //if(!GameManager.GetInstance().OnUI)
         {
-            float ObstacleMinDistance = 0.5f;
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward * Ver), out hit, Mathf.Infinity))
+            // ** 플레이어 움직임
+            float Hor = Input.GetAxisRaw("Horizontal");
+            float Ver = Input.GetAxisRaw("Vertical");
+
+            // ** Collider나 NavMesh로 제어하면 벽에 부딪힌 후 벽 쪽으로 이동하려 할 시 캐릭터가 덜덜 떨리는 현상이 있음
+            // ** 따라서 가려는 방향에 벽이 있다면 일정 거리를 두게 만듦
             {
-                if (Vector3.Distance(hit.point, transform.position) > ObstacleMinDistance)
+                float ObstacleMinDistance = 0.5f;
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward * Ver), out hit, Mathf.Infinity))
+                {
+                    if (Vector3.Distance(hit.point, transform.position) > ObstacleMinDistance)
+                    {
+                        transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
+                    }
+
+                    if (hit.transform.gameObject.GetComponent<Collider>().isTrigger == true)
+                    {
+                        transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
+                    }
+                }
+                else // ** 부딪히는 벽이 없다는 것은 넓은 평야라는 것이기 때문에 자유롭게 움직이게 한다
                 {
                     transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
                 }
 
-                if (hit.transform.gameObject.GetComponent<Collider>().isTrigger == true)
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right * Hor), out hit, Mathf.Infinity))
                 {
-                    transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
+                    if (Vector3.Distance(hit.point, transform.position) > ObstacleMinDistance)
+                    {
+                        transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
+                    }
+                    if (hit.transform.gameObject.GetComponent<Collider>().isTrigger == true)
+                    {
+                        transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
+                    }
                 }
-            }
-            else // ** 부딪히는 벽이 없다는 것은 넓은 평야라는 것이기 때문에 자유롭게 움직이게 한다
-            {
-                transform.Translate(0.0f, 0.0f, Ver * MoveSpeed * Time.deltaTime);
+                else
+                {
+                    transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
+                }
             }
 
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right * Hor), out hit, Mathf.Infinity))
-            {
-                if (Vector3.Distance(hit.point, transform.position) > ObstacleMinDistance)
-                {
-                    transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
-                }
-                if (hit.transform.gameObject.GetComponent<Collider>().isTrigger == true)
-                {
-                    transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
-                }
-            }
-            else
-            {
-                transform.Translate(Hor * MoveSpeed * Time.deltaTime, 0.0f, 0.0f);
-            }
+            Jump();
+
+            if (Input.GetMouseButton(1))
+                PlayerRotate();
+
+            MainCamera.transform.position = transform.position + CameraPos;
         }
-
-        Jump();
-
-        if (Input.GetMouseButton(1))
-            PlayerRotate();
-
-        MainCamera.transform.position = transform.position + CameraPos;
-
     }
     private void OnCollisionEnter(Collision collision)
     {
