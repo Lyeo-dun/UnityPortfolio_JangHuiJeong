@@ -68,7 +68,7 @@ public class PlayerMoveController : MonoBehaviour
     void Update()
     {
         // ** 현재 인터렉션 할 수 있는지 UI 띄움
-        //if(!GameManager.GetInstance().OnUI)
+        if(!GameManager.GetInstance().OnUI)
         {
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -177,7 +177,7 @@ public class PlayerMoveController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //if(!GameManager.GetInstance().OnUI)
+        if(!GameManager.GetInstance().OnUI)
         {
             // ** 플레이어 움직임
             float Hor = Input.GetAxisRaw("Horizontal");

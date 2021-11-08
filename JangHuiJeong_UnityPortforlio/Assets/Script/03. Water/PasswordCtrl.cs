@@ -5,6 +5,7 @@ using UnityEngine;
 public class PasswordCtrl : ItemControler
 {
     [SerializeField] private GameObject PasswordUI;
+    [SerializeField] private int InputPassword;
 
     private bool isViewUI;
     private bool isSetPassword;
@@ -12,12 +13,22 @@ public class PasswordCtrl : ItemControler
     private void Awake()
     {
         PasswordUI = transform.GetChild(0).gameObject;
+
     }
 
     private void Start()
     {
+        InputPassword[] InputButtons = transform.GetComponentsInChildren<InputPassword>();
+
+        for(int i = 0; i < InputButtons.Length; i++)
+        {
+            InputButtons[i].ButtonNum = i + 1;           
+        }
+        
         isViewUI = false;
         PasswordUI.SetActive(isViewUI);
+
+        isSetPassword = false;        
     }
 
     public override void EventItem()
@@ -35,5 +46,12 @@ public class PasswordCtrl : ItemControler
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    public void CompairPassWord()
+    {
+        isSetPassword = false;
+
+        isSetPassword = true;
     }
 }
