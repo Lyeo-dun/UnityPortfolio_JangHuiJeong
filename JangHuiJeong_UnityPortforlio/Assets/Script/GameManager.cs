@@ -249,4 +249,14 @@ public class GameManager : MonoBehaviour
     {
         LastPassWord.Add(_Index);
     }
+
+    public bool CompairPassword(List<int> _InputPassword)
+    {
+        for(int i = 0; i < 2; i++)
+        {
+            if (LastPassWord[i] != _InputPassword[i])
+                return false;
+        }
+        return true;
+    }
 }

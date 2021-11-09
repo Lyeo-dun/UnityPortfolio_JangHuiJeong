@@ -81,14 +81,22 @@ public class PasswordCtrl : ItemControler
         {
             MessageUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = 2 + " 자리 암호를\n입력하여 주세요!";
             StartCoroutine("ViewMessage");
-        } else if(GameManager.GetInstance().PasswordLength < 2)
+            return;
+        } 
+        else if(GameManager.GetInstance().PasswordLength < 2)
         {
             MessageUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "암호를 알 수 없습니다!";
             StartCoroutine("ViewMessage");
+            return;
         }
+        
+        if(GameManager.GetInstance().CompairPassword(InputPasswordList))
+        {
+            MessageUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "문이 열렸습니다!";
+            StartCoroutine("ViewMessage");
 
-        //비밀번호가 맞다면
-        //LinkDoor.GetComponent<KeyDoor>().OpenDoor();
+            LinkDoor.GetComponent<KeyDoor>().OpenDoor();
+        }
     }
 
     IEnumerator ViewMessage()

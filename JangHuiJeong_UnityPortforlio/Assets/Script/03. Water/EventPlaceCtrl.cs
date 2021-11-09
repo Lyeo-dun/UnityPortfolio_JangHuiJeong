@@ -30,16 +30,20 @@ public class EventPlaceCtrl : MonoBehaviour
         WallsDropSound = GetComponent<AudioSource>();
 
         if(!GameManager.GetInstance().PlayerSettingPos)
+        {
             foreach (var Wall in Walls)
             {
                 Wall.SetActive(false);
             }
+            InRoomDoor.SetActive(false);
+        }
         else
         {
             foreach (var Wall in Walls)
             {
                 Wall.SetActive(true);
             }
+            InRoomDoor.SetActive(true);
         }
     }
 
@@ -75,5 +79,9 @@ public class EventPlaceCtrl : MonoBehaviour
             yield return new WaitForSeconds(0.65f);
             WallsDropSound.Stop();
         }
+
+        yield return new WaitForSeconds(0.65f);
+        WallsDropSound.Play();
+        InRoomDoor.SetActive(true);
     }
 }
