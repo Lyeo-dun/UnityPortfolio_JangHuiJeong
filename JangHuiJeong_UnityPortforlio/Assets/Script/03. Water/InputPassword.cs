@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class InputPassword : MonoBehaviour
 {
+    [SerializeField] private GameObject PasswordManager;
     [SerializeField] private Button InputButton;
     [SerializeField] private int _ButtonNum;
     public int ButtonNum
@@ -22,15 +23,16 @@ public class InputPassword : MonoBehaviour
     public void Awake()
     {
         InputButton = GetComponent<Button>();
+        PasswordManager = GameObject.Find("PassWord");
     }
 
     public void Start()
     {
-        InputButton.onClick.AddListener(Test);
+        InputButton.onClick.AddListener(Input);
     }
 
-    public void Test()
+    public void Input()
     {
-        Debug.Log(ButtonNum);
+        PasswordManager.GetComponent<PasswordCtrl>().InputPasswords(_ButtonNum, GetComponent<Image>().color);
     }
 }

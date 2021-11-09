@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     private Vector3 PlayerRepawnPos;
     private bool WallsEvent;
 
+    private bool _isNextRoom;
+
     private void Awake()
     {
         if (_Instance == null)
@@ -83,6 +85,8 @@ public class GameManager : MonoBehaviour
 
             NextSceneIndex = 5;
             _LastRoomNumber = (NextSceneIndex - 2) + 1;
+
+            _isNextRoom = false;
         }
     }
 
@@ -93,8 +97,7 @@ public class GameManager : MonoBehaviour
         _SceneNumber += _Index;
         SceneManager.LoadScene(_SceneNumber);
     }
-
-
+    
     public bool OnUI
     {
         set
@@ -216,6 +219,22 @@ public class GameManager : MonoBehaviour
             return _LastRoomNumber;
         }
     }
+    public bool isNextRoom
+    {
+        set
+        {
+            _isNextRoom = value;
+        }
+        get
+        {
+            return _isNextRoom;
+        }
+    }
+    public int PasswordLength
+    {
+        get { return LastPassWord.Count; }
+    }
+
     public void InRoom()
     {
         _SceneNumber = 2; // ** chap 3으로 돌아갈 것

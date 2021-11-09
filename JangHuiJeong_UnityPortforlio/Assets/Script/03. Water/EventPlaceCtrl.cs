@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallEvent : MonoBehaviour
+public class EventPlaceCtrl : MonoBehaviour
 {
     [SerializeField] private List<GameObject> Walls;
     [SerializeField] private AudioSource WallsDropSound;
 
+    [SerializeField] private GameObject InRoomDoor;
+
     private void Awake()
     {
         {
-            Transform[] Trans = transform.GetComponentsInChildren<Transform>();
-
-            int Count = 0;
+            Transform[] Trans = transform.GetChild(0).GetComponentsInChildren<Transform>();
+            
             for (int i = 1; i < Trans.Length; i++)
             {
                 if(Trans[i].gameObject.tag == "Wall")
                 {
-                    Walls.Add(Trans[i].gameObject);                    
+                    Walls.Add(Trans[i].gameObject);
                 }
             }
         }
+
+        InRoomDoor = transform.GetChild(1).gameObject;
     }
     private void Start()
     {
@@ -39,6 +42,17 @@ public class WallEvent : MonoBehaviour
             }
         }
     }
+
+    private void Update()
+    {
+        if(!GameManager.GetInstance().isNextRoom)
+            if (GameManager.GetInstance().RoomNum + GameManager.GetInstance().SceneNumber > GameManager.GetInstance().LastRoomNum)
+            {
+                InRoomDoor.SetActive(false);
+                GameManager.GetInstance().isNextRoom = true;
+            }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
