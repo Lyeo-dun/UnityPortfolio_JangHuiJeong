@@ -30,7 +30,7 @@ public class KeyDoor : Door
         isKey = false;
         NeedKeyMessageUI.SetActive(false);
         
-        if (GameManager.GetInstance().SceneNumber == 1) // ** Stage가 1가 아니면 실행되지 않는다
+        if (GameManager.GetInstance().SceneNumber == 2) // ** Stage가 2가 아니면 실행되지 않는다
         {
             GameObject _Key = Resources.Load("Prefabs/Key") as GameObject;
             Key = Instantiate<GameObject>(_Key);
@@ -51,7 +51,7 @@ public class KeyDoor : Door
         {
             StartCoroutine("ViewingCountMessage");
 
-            if (GameManager.GetInstance().SceneNumber == 1)
+            if (GameManager.GetInstance().SceneNumber == 2)
             {
                 if (ClockManager.GetInstance() != null && GameManager.GetInstance().ClockEventState)
                 {
@@ -77,7 +77,7 @@ public class KeyDoor : Door
         isKey = true;
         DoorAudio.Play();
 
-        if (GameManager.GetInstance().SceneNumber == 1)
+        if (GameManager.GetInstance().SceneNumber == 2)
             GameManager.GetInstance().GoThirdStage = true;
     }
 

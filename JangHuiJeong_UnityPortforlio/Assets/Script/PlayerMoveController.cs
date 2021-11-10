@@ -42,7 +42,7 @@ public class PlayerMoveController : MonoBehaviour
 
     void Start()
     {
-        if (GameManager.GetInstance().SceneNumber == 2 && !GameManager.GetInstance().isInRoom)
+        if (GameManager.GetInstance().SceneNumber == 3 && !GameManager.GetInstance().isInRoom)
             if (GameManager.GetInstance().PlayerSettingPos)
             {
                 transform.position = GameManager.GetInstance().PlayerPos;
@@ -119,7 +119,7 @@ public class PlayerMoveController : MonoBehaviour
                                 }
                                 if (hit.transform.tag == "Key")
                                 {
-                                    if(GameManager.GetInstance().SceneNumber == 1)
+                                    if(GameManager.GetInstance().SceneNumber == 2)
                                         hit.transform.parent.gameObject.GetComponent<KeyControl>().KeyEvent();
                                     else
                                     {

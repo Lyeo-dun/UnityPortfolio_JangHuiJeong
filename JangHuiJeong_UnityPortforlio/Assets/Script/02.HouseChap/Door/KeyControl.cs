@@ -21,19 +21,19 @@ public class KeyControl : MonoBehaviour
 
     private void Awake()
     {
-        if(GameManager.GetInstance().SceneNumber == 1)
+        if(GameManager.GetInstance().SceneNumber == 2)
             KeyModeling = transform.GetChild(0).gameObject;
     }
 
     private void Start()
     {
-        if (GameManager.GetInstance().SceneNumber == 1)
+        if (GameManager.GetInstance().SceneNumber == 2)
             KeyModeling.SetActive(false);
     }    
     
     public void KeyEvent()
     {
-        if (GameManager.GetInstance().SceneNumber == 1)
+        if (GameManager.GetInstance().SceneNumber == 2)
         {
             LinkDoor.GetComponent<KeyDoor>().OpenDoor();
             gameObject.SetActive(false);

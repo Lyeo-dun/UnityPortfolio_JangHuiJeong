@@ -83,8 +83,8 @@ public class GameManager : MonoBehaviour
             PlayerRepawnPos = new Vector3(0.0f, 1.7f, 20.0f);
             WallsEvent = false;
 
-            NextSceneIndex = 5;
-            _LastRoomNumber = (NextSceneIndex - 2) + 1;
+            NextSceneIndex = 6;
+            _LastRoomNumber = (NextSceneIndex - 3) + 1;
 
             _isNextRoom = false;
         }
@@ -237,7 +237,7 @@ public class GameManager : MonoBehaviour
 
     public void InRoom()
     {
-        _SceneNumber = 2; // ** chap 3으로 돌아갈 것
+        _SceneNumber = 3; // ** chap 3으로 돌아갈 것
         
         SceneManager.LoadScene(RoomNumber + SceneNumber);
     }
