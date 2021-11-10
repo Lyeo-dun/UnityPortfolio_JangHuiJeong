@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _SceneNumber;
     public int SceneNumber
     {
+        set
+        {
+            _SceneNumber = value;
+        }
         get
         {
             return _SceneNumber;
@@ -41,7 +45,7 @@ public class GameManager : MonoBehaviour
     private Vector3 PlayerRepawnPos;
     private bool WallsEvent;
 
-    private bool _isNextRoom;
+    [SerializeField] private bool _isNextRoom;
 
     private void Awake()
     {
@@ -57,14 +61,16 @@ public class GameManager : MonoBehaviour
             if(this != _Instance)
                 Destroy(gameObject);
         }
-        _SceneNumber = SceneManager.GetActiveScene().buildIndex;
     }
 
     void Start()
     {
+        Initialized();
+    }
 
-        if (_SceneNumber > 2)
-            _SceneNumber = 2;
+    public void Initialized()
+    {
+        _SceneNumber = SceneManager.GetActiveScene().buildIndex;
 
         { // ** chap 1
             PortalCount = 0;
@@ -84,12 +90,11 @@ public class GameManager : MonoBehaviour
             WallsEvent = false;
 
             NextSceneIndex = 6;
-            _LastRoomNumber = (NextSceneIndex - 3) + 1;
+            _LastRoomNumber = (NextSceneIndex - 3) - 1;
 
             _isNextRoom = false;
         }
     }
-
 
     // ** Scene °ü¸®
     public void NextStage(int _Index = 1)

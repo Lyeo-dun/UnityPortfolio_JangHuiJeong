@@ -35,7 +35,7 @@ public class TestDissolveItem : MonoBehaviour
                     if (ThisGameObjectShader == Shader.Find("Ultimate 10+ Shaders/Dissolve"))
                     {
                         material.SetFloat("_Cutoff", Value);
-                        Value += 0.003f;
+                        Value += 0.002f;
                     }                
                     if (ThisGameObjectShader == Shader.Find("Standard"))
                     {

@@ -50,7 +50,7 @@ public class EventPlaceCtrl : MonoBehaviour
     private void Update()
     {
         if(!GameManager.GetInstance().isNextRoom)
-            if (GameManager.GetInstance().RoomNum + GameManager.GetInstance().SceneNumber > GameManager.GetInstance().LastRoomNum)
+            if (GameManager.GetInstance().RoomNum > GameManager.GetInstance().LastRoomNum)
             {
                 InRoomDoor.SetActive(false);
                 GameManager.GetInstance().isNextRoom = true;

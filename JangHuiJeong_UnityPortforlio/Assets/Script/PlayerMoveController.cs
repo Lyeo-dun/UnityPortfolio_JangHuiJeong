@@ -18,6 +18,7 @@ public class PlayerMoveController : MonoBehaviour
     private int JumpCount;
     private Rigidbody Rigid;
 
+    [SerializeField] private GameObject ControlerGuideUI;
     [SerializeField] private GameObject PressEKeyUI;
 
     [SerializeField] private GameObject BringGameObjectPosition;
@@ -33,11 +34,11 @@ public class PlayerMoveController : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         MainCamera = Camera.main.gameObject;
         PressEKeyUI = GameObject.Find("PressEKeyUI");
         Rigid = GetComponent<Rigidbody>();
         BringGameObjectPosition = GameObject.Find("Player/Main Camera/BringObject");
+
     }
 
     void Start()
@@ -48,6 +49,9 @@ public class PlayerMoveController : MonoBehaviour
                 transform.position = GameManager.GetInstance().PlayerPos;
                 transform.rotation = new Quaternion(0.0f, 180.0f, 0.0f, 0.0f);
             }
+
+        if(GameManager.GetInstance().SceneNumber == 1)
+            ControlerGuideUI = GameObject.Find("CtrlGuideUI");
 
         MoveSpeed = 5.0f;
         RotateSpeed = 3.5f;
@@ -63,6 +67,8 @@ public class PlayerMoveController : MonoBehaviour
         JumpCount = 0;
 
         PressEKeyUI.SetActive(false);
+        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -183,6 +189,14 @@ public class PlayerMoveController : MonoBehaviour
             float Hor = Input.GetAxisRaw("Horizontal");
             float Ver = Input.GetAxisRaw("Vertical");
 
+            if (GameManager.GetInstance().SceneNumber == 1)
+            {
+                if(ControlerGuideUI.activeSelf && Ver > 0.1 || Hor > 0.1)
+                {
+                    ControlerGuideUI.SetActive(false);
+                }
+            }
+
             // ** Collider나 NavMesh로 제어하면 벽에 부딪힌 후 벽 쪽으로 이동하려 할 시 캐릭터가 덜덜 떨리는 현상이 있음
             // ** 따라서 가려는 방향에 벽이 있다면 일정 거리를 두게 만듦
             {
@@ -225,7 +239,17 @@ public class PlayerMoveController : MonoBehaviour
             Jump();
 
             if (Input.GetMouseButton(1))
+            {
+                if (GameManager.GetInstance().SceneNumber == 1)
+                {
+                    if (ControlerGuideUI.activeSelf)
+                    {
+                        ControlerGuideUI.SetActive(false);
+                    }
+                }
+
                 PlayerRotate();
+            }
 
             MainCamera.transform.position = transform.position + CameraPos;
         }

@@ -41,7 +41,7 @@ public class EnterRoomCtrl : MonoBehaviour
         }
         else
         {
-            GameManager.GetInstance().NextStage(GameManager.GetInstance().LastRoomNum - 1);
+            GameManager.GetInstance().NextStage(GameManager.GetInstance().LastRoomNum + 1);
         }
     }
 }
